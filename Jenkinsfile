@@ -128,6 +128,17 @@ pipeline {
 
                     // 归档测试报告
                     archiveArtifacts artifacts: 'tests/reports/**', allowEmptyArchive: true
+
+                    // 发布HTML报告
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'tests/reports',
+                        reportFiles: 'test_report.html',
+                        reportName: 'Test Report',
+                        reportTitles: 'Pytest Test Results'
+                    ])
                 }
             }
         }
@@ -232,9 +243,10 @@ def sendNotification(testType, status) {
             <p><strong>Status:</strong> ${status}</p>
             <p><strong>Test Type:</strong> ${testType}</p>
             <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+            <p><strong>Test Report:</strong> <a href="${env.BUILD_URL}Test_Report/">${env.BUILD_URL}Test_Report/</a></p>
 
             <h3>Test Summary</h3>
-            <p>Please check the attached reports for detailed test results.</p>
+            <p>Please check the attached reports and <a href="${env.BUILD_URL}Test_Report/">online test report</a> for detailed test results.</p>
 
             <p>Best regards,<br>Jenkins CI/CD System</p>
         </body>

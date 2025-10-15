@@ -17,7 +17,7 @@ services:
       - ./tests/reports:/app/tests/reports
     environment:
       - APP_URL=http://app:5000
-    command: pytest -v --html=tests/reports/test_report.html --tb=short
+    command: pytest -v --tb=short
 
 networks:
   default:
