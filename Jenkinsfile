@@ -27,12 +27,23 @@ pipeline{
         }
         // ================ 生成 Allure + PDF ===================
         stage('Collect Reports'){
-            script{
-                    echo "===== Allure ====="
+            steps{
+                script{
+                    echo "================ 生成 Allure + PDF ==================="
                 }
+            }
         }
     }
     post{ 
-        echo "Pipeline Finished"
+        success {
+            echo '✅ Deployment succeeded!'
+        }
+        failure {
+            echo '❌ Deployment failed!'
+        }
+        always {
+            // 清理或通知
+            echo 'Cleanup or notification here.'
+        }
     }
 }
