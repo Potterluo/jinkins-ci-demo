@@ -1,5 +1,4 @@
 pipeline{
-    agent { label 'master' }          // 如要无固定 agent，可改回 agent none
     environment{
         DOCKER_REGISTRY = '127.0.0.1:5000'
         REPORT_DIR      = 'report_pdf'
