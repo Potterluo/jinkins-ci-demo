@@ -3,11 +3,11 @@
 // ======================================================================
 
 pipeline {
-    agent none  // 不使用任何固定 agent，仅在主节点调度
+    agent any  // 使用任何可用的agent
     
     environment {
         DOCKER_REGISTRY = "127.0.0.1:5000"
-        REPO_URL = "https://github.com/Potterluo/jinkins-ci-demo.git"
+        REPO_URL = "git@github.com:Potterluo/jinkins-ci-demo.git"
         REPORT_DIR = "tests/reports"
         ALLURE_DIR = "allure-results"
         EMAIL_RECIPIENTS = "2926612857@qq.com"
@@ -39,33 +39,28 @@ pipeline {
                 }
             }
             steps {
-                node {
-                    script {
+                script {
                         echo "===== Starting PR Verification ====="
+                        // 配置Git使用更安全的TLS设置
+                        sh 'git config --global http.sslVerify false'
+                        sh 'git config --global http.version HTTP/1.1'
                         checkout scm
 
                         // 运行测试和构建
                         runTestSuite('main')
                     }
-                }
             }
             post {
                 always {
-                    node {
                         generateReports()
                         cleanupResources()
                     }
-                }
                 success {
-                    node {
                         sendNotification('PR Verification', 'SUCCESS')
                     }
-                }
                 failure {
-                    node {
                         sendNotification('PR Verification', 'FAILURE')
                     }
-                }
             }
         }
 
@@ -78,9 +73,11 @@ pipeline {
                 }
             }
             steps {
-                node {
-                    script {
+                script {
                         echo "===== Starting Daily Build & Smoke Test ====="
+                        // 配置Git使用更安全的TLS设置
+                        sh 'git config --global http.sslVerify false'
+                        sh 'git config --global http.version HTTP/1.1'
                         checkout([$class: 'GitSCM', branches: [[name: "*/main"]], userRemoteConfigs: [[url: "${REPO_URL}"]]])
 
                         // 构建镜像
@@ -89,25 +86,18 @@ pipeline {
                         // 运行冒烟测试
                         runTestSuite('SMOKE')
                     }
-                }
             }
             post {
                 always {
-                    node {
                         generateReports()
                         cleanupResources()
                     }
-                }
                 success {
-                    node {
                         sendNotification('Daily Build & Smoke Test', 'SUCCESS')
                     }
-                }
                 failure {
-                    node {
                         sendNotification('Daily Build & Smoke Test', 'FAILURE')
                     }
-                }
             }
         }
 
@@ -115,9 +105,11 @@ pipeline {
         stage('Full Test') {
             when { expression { params.TRIGGER_TYPE == 'FULL_TEST' } }
             steps {
-                node {
-                    script {
+                script {
                         echo "===== Starting Full Test ====="
+                        // 配置Git使用更安全的TLS设置
+                        sh 'git config --global http.sslVerify false'
+                        sh 'git config --global http.version HTTP/1.1'
                         checkout([$class: 'GitSCM', branches: [[name: "*/main"]], userRemoteConfigs: [[url: "${REPO_URL}"]]])
 
                         // 构建镜像
@@ -126,33 +118,25 @@ pipeline {
                         // 运行全量测试
                         runTestSuite('FULL')
                     }
-                }
             }
             post {
                 always {
-                    node {
                         generateReports()
                         cleanupResources()
                     }
-                }
                 success {
-                    node {
                         sendNotification('Full Test', 'SUCCESS')
                     }
-                }
                 failure {
-                    node {
                         sendNotification('Full Test', 'FAILURE')
                     }
-                }
             }
         }
 
         // ============================ 报告汇总 ============================
         stage('Collect Reports') {
             steps {
-                node {
-                    script {
+                script {
                         echo "Collecting all logs and reports..."
                         sh "mkdir -p ${REPORT_DIR} ${ALLURE_DIR}"
 
@@ -168,17 +152,14 @@ pipeline {
                             generatePDFReport()
                         }
                     }
-                }
             }
         }
     }
 
     post {
         always {
-            node {
-                echo "Pipeline Finished: ${currentBuild.currentResult}"
-                cleanWs()
-            }
+            echo "Pipeline Finished: ${currentBuild.currentResult}"
+            cleanWs()
         }
     }
 }
@@ -189,7 +170,6 @@ pipeline {
 
 // 构建并推送镜像
 def buildAndPushImage(imageName) {
-    node {
         def fullImageName = "${env.DOCKER_REGISTRY}/${imageName}"
         def dateTag = "daily-${new Date().format('yyyyMMdd')}"
         def gitCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
@@ -217,12 +197,10 @@ def buildAndPushImage(imageName) {
             echo "Docker Hub credentials not configured, skipping image push"
         fi
         """
-    }
 }
 
 // 运行测试套件
 def runTestSuite(testType) {
-    node {
         echo "===== Running ${testType} Test Suite ====="
 
         try {
@@ -243,12 +221,10 @@ def runTestSuite(testType) {
             currentBuild.result = 'FAILURE'
             throw e
         }
-    }
 }
 
 // 生成报告
 def generateReports() {
-    node {
         echo "Generating test reports..."
 
         // 收集测试结果
@@ -257,7 +233,6 @@ def generateReports() {
         // 复制测试报告
         sh "cp -r tests/reports/* ${REPORT_DIR}/ || true"
         sh "cp -r allure-results/* ${ALLURE_DIR}/ || true"
-    }
 }
 
 // 生成Allure报告
@@ -276,7 +251,6 @@ def generateAllureReport() {
 
 // 生成PDF报告
 def generatePDFReport() {
-    node {
         echo "Generating PDF report..."
 
         sh """
@@ -287,12 +261,10 @@ def generatePDFReport() {
             echo "PDF generation script not found, skipping"
         fi
         """
-    }
 }
 
 // 发送通知
 def sendNotification(testType, status) {
-    node {
         if (params.SEND_EMAIL) {
             echo "Sending email notification for ${testType} - ${status}"
 
@@ -330,12 +302,10 @@ def sendNotification(testType, status) {
                 // 邮件发送失败不应该影响构建结果
             }
         }
-    }
 }
 
 // 清理资源
 def cleanupResources() {
-    node {
         echo "Cleaning up resources..."
 
         sh """
@@ -345,5 +315,4 @@ def cleanupResources() {
         # 清理 dangling 镜像
         docker system prune -f || true
         """
-    }
 }
