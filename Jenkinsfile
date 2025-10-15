@@ -6,7 +6,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = "127.0.0.1:5000"
+        DOCKER_REGISTRY = "127.0.0.1:5001"
         REPO_URL = "https://github.com/Potterluo/jinkins-ci-demo.git"
         REPORT_DIR = "tests/reports"
         EMAIL_RECIPIENTS = "2926612857@qq.com"
