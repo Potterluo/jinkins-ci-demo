@@ -7,7 +7,7 @@ pipeline {
     
     environment {
         DOCKER_REGISTRY = "127.0.0.1:5000"
-        REPO_URL = "git@github.com:Potterluo/jinkins-ci-demo.git"
+        REPO_URL = "https://github.com/Potterluo/jinkins-ci-demo.git"
         REPORT_DIR = "tests/reports"
         ALLURE_DIR = "allure-results"
         EMAIL_RECIPIENTS = "2926612857@qq.com"
@@ -41,9 +41,6 @@ pipeline {
             steps {
                 script {
                         echo "===== Starting PR Verification ====="
-                        // 配置Git使用更安全的TLS设置
-                        sh 'git config --global http.sslVerify false'
-                        sh 'git config --global http.version HTTP/1.1'
                         checkout scm
 
                         // 运行测试和构建
@@ -75,9 +72,6 @@ pipeline {
             steps {
                 script {
                         echo "===== Starting Daily Build & Smoke Test ====="
-                        // 配置Git使用更安全的TLS设置
-                        sh 'git config --global http.sslVerify false'
-                        sh 'git config --global http.version HTTP/1.1'
                         checkout([$class: 'GitSCM', branches: [[name: "*/main"]], userRemoteConfigs: [[url: "${REPO_URL}"]]])
 
                         // 构建镜像
@@ -107,9 +101,6 @@ pipeline {
             steps {
                 script {
                         echo "===== Starting Full Test ====="
-                        // 配置Git使用更安全的TLS设置
-                        sh 'git config --global http.sslVerify false'
-                        sh 'git config --global http.version HTTP/1.1'
                         checkout([$class: 'GitSCM', branches: [[name: "*/main"]], userRemoteConfigs: [[url: "${REPO_URL}"]]])
 
                         // 构建镜像
