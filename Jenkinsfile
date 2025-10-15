@@ -10,7 +10,7 @@ pipeline {
         REPO_URL = "https://github.com/Potterluo/jinkins-ci-demo.git"
         REPORT_DIR = "tests/reports"
         ALLURE_DIR = "allure-results"
-        EMAIL_RECIPIENTS = "example@example.com"
+        EMAIL_RECIPIENTS = "2926612857@qq.com"
         DOCKER_HUB_USER = ""
         DOCKER_HUB_TOKEN = ""
     }
