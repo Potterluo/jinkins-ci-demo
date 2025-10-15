@@ -204,6 +204,15 @@ def runTestSuite(testType) {
         echo "===== Running ${testType} Test Suite ====="
 
         try {
+            // 检查当前目录和文件
+            sh "ls -la"
+            sh "pwd"
+            sh "cat Dockerfile || echo 'Dockerfile not found'"
+
+            // 检查Docker是否可用
+            sh "docker --version"
+            sh "docker-compose --version"
+
             // 启动测试环境
             sh "docker-compose -f docker-compose.test.yml up -d --build"
 
@@ -218,6 +227,10 @@ def runTestSuite(testType) {
 
         } catch (Exception e) {
             echo "Test execution failed: ${e.getMessage()}"
+
+            // 显示Docker容器日志以便调试
+            sh "docker-compose -f docker-compose.test.yml logs || true"
+
             currentBuild.result = 'FAILURE'
             throw e
         }
