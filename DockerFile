@@ -1,0 +1,7 @@
+FROM python:3.11-slim
+
+# 复制脚本到容器
+COPY app.py /app.py
+
+# 执行脚本
+CMD ["python app.py"]
