@@ -1,7 +1,12 @@
 FROM python:3.11-slim
 
-# 复制脚本到容器
-COPY app.py /app.py
+WORKDIR /app
 
-# 执行脚本
-CMD ["python app.py"]
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app.py .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]

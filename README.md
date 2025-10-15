@@ -45,12 +45,22 @@ curl http://localhost:5000/hello
 curl http://localhost:5000/health
 ```
 
-### 2. 运行测试
+### 2. 验证应用功能
 ```bash
-# 使用 Docker Compose 运行完整测试
+# 快速验证应用功能
+python verify_app.py
+```
+
+### 3. 运行测试
+```bash
+# 方法1：使用pytest直接运行（适用于开发环境）
+pip install -r requirements.txt
+python -m pytest tests/test_app.py -v
+
+# 方法2：使用Docker Compose（与CI/CD环境一致）
 docker-compose -f docker-compose.test.yml up --build
 
-# 或者使用测试脚本
+# 方法3：使用测试脚本
 chmod +x scripts/run_tests.sh
 ./scripts/run_tests.sh
 ```
