@@ -7,10 +7,10 @@ pipeline {
     
     environment {
         DOCKER_REGISTRY = "127.0.0.1:5000"
-        REPO_URL = "https://github.com/Potterluo/jinkins-ci-demo.git"
+        REPO_URL = "git@github.com:Potterluo/jinkins-ci-demo.git"
         REPORT_DIR = "tests/reports"
         ALLURE_DIR = "allure-results"
-        EMAIL_RECIPIENTS = "2926612857@qq.com"
+        EMAIL_RECIPIENTS = "duxiaolong22@mails.ucas.ac.cn"
         DOCKER_HUB_USER = ""
         DOCKER_HUB_TOKEN = ""
     }
