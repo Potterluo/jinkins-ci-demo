@@ -198,6 +198,15 @@ def runTestSuite(testType) {
             // 检查当前目录和文件
             sh "ls -la"
             sh "pwd"
+
+            // 修复可能的文件名大小写问题
+            sh """
+            if [ -f DockerFile ] && [ ! -f Dockerfile ]; then
+                echo "Renaming DockerFile to Dockerfile for case sensitivity"
+                mv DockerFile Dockerfile
+            fi
+            """
+
             sh "cat Dockerfile || echo 'Dockerfile not found'"
 
             // 检查Docker是否可用
