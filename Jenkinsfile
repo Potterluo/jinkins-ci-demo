@@ -1,4 +1,5 @@
 pipeline{
+    agent none  // 不使用任何固定 agent，仅在主节点调度
     environment{
         DOCKER_REGISTRY = '127.0.0.1:5000'
         REPORT_DIR      = 'report_pdf'
