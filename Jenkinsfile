@@ -45,16 +45,6 @@ pipeline {
             post {
                 always {
                     generateSimpleReports()
-
-                    // 运行Allure调试脚本
-                    script {
-                        try {
-                            sh "python scripts/debug_allure.py || echo 'Allure debug script failed'"
-                        } catch (Exception e) {
-                            echo "Failed to run Allure debug script: ${e.getMessage()}"
-                        }
-                    }
-
                     cleanupResources()
                 }
                 success {
@@ -153,29 +143,12 @@ pipeline {
                     // 发布Allure报告
                     script {
                         try {
-                            // 检查allure-results目录是否存在
-                            def allureResultsExist = fileExists('tests/reports/allure-results')
-                            echo "Allure results directory exists: ${allureResultsExist}"
-
-                            if (allureResultsExist) {
-                                // 列出allure-results目录内容
-                                sh "ls -la tests/reports/allure-results/ || echo 'No allure-results files found'"
-
-                                allure([
-                                    includeProperties: false,
-                                    jdk: '',
-                                    properties: [],
-                                    reportBuildPolicy: 'ALWAYS',
-                                    results: [[path: 'tests/reports/allure-results']]
-                                ])
-                                echo "Allure report published successfully"
-                            } else {
-                                echo "Allure results directory not found, skipping Allure report generation"
-                            }
+                            // 简化的Allure报告配置
+                            allure results: [[path: 'tests/reports/allure-results']]
+                            echo "Allure report step completed"
                         } catch (Exception e) {
                             echo "Allure report generation failed: ${e.getMessage()}"
-                            echo "Stack trace: ${e.getStackTrace()}"
-                            echo "Continuing with other report types..."
+                            echo "This might be due to missing Allure Commandline in Jenkins"
                         }
                     }
                 }
@@ -245,6 +218,15 @@ def runSimpleTest() {
         // 运行测试
         sh "docker-compose -f docker-compose.test.yml run --rm test pytest -v --html=tests/reports/test_report.html --alluredir=tests/reports/allure-results"
 
+        // 检查Allure结果是否生成
+        sh """
+        echo '=== 检查Allure结果目录 ==='
+        ls -la tests/reports/ || echo 'tests/reports目录不存在'
+        ls -la tests/reports/allure-results/ || echo 'allure-results目录不存在'
+        find tests/reports/allure-results/ -name '*.json' 2>/dev/null | head -5 || echo '没有找到JSON文件'
+        echo '=== 检查完成 ==='
+        """
+
     } catch (Exception e) {
         echo "Test execution failed: ${e.getMessage()}"
 
@@ -263,17 +245,13 @@ def generateSimpleReports() {
     // 收集测试结果
     sh "mkdir -p ${REPORT_DIR}"
 
-    // 检查allure-results目录
-    def allureExists = fileExists('tests/reports/allure-results')
-    echo "Allure results directory exists: ${allureExists}"
-
-    if (allureExists) {
-        sh "ls -la tests/reports/allure-results/ || echo 'No allure files found'"
-        sh "find tests/reports/allure-results/ -name '*.json' | wc -l || echo 'Cannot count JSON files'"
-    }
-
-    // 复制测试报告
-    sh "cp -r tests/reports/* ${REPORT_DIR}/ || true"
+    // 简化的报告收集
+    sh """
+    echo '=== 收集测试报告 ==='
+    ls -la tests/reports/ 2>/dev/null || echo 'No reports directory found'
+    cp -r tests/reports/* ${REPORT_DIR}/ 2>/dev/null || echo 'No reports to copy'
+    echo '=== 报告收集完成 ==='
+    """
 }
 
 // 发送通知

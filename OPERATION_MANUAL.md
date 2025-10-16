@@ -285,46 +285,43 @@ python scripts/generate_pdf_report.py
 
 ### 3. Allure报告无法显示
 
-#### 检查Jenkins配置
-1. **插件安装**：
-   - 确认Allure Jenkins Plugin已安装
-   - 检查插件版本兼容性
+#### 快速诊断
+从构建日志检查以下关键信息：
+```
+=== 检查Allure结果目录 ===
+```
+如果看到这个输出，确认是否列出了JSON文件。
+
+#### Jenkins配置检查
+1. **必需插件**：
+   - Allure Jenkins Plugin（必须安装）
 
 2. **全局工具配置**：
    - 进入"Manage Jenkins" → "Global Tool Configuration"
-   - 确认Allure Commandline已正确安装
-   - 版本建议：2.24+
+   - 找到"Allure Commandline"，点击新增安装
+   - 版本建议：2.24+，选择"Install automatically"
 
-3. **权限设置**：
-   - 确保Jenkins有权限访问allure-results目录
-   - 检查文件权限设置
+3. **简化配置**：
+   - 项目已使用最简化的Allure配置
+   - 路径：`tests/reports/allure-results`
 
-#### 检查构建过程
-1. **数据生成**：
-   - 确认pytest生成了allure-results目录
-   - 检查目录中是否包含JSON文件
+#### 常见问题和解决方案
+1. **Allure Commandline未安装**：
+   - 在全局工具配置中安装Allure Commandline
+   - 重启Jenkins服务
 
-2. **Jenkinsfile配置**：
-   - 确认allure步骤路径正确：`tests/reports/allure-results`
-   - 检查是否有错误日志
+2. **报告数据未生成**：
+   - 检查pytest是否包含`--alluredir`参数
+   - 确认测试运行时没有错误
 
-#### 常见解决方案
-```bash
-# 1. 检查allure-results目录内容
-ls -la tests/reports/allure-results/
-
-# 2. 手动生成Allure报告验证数据
-allure generate tests/reports/allure-results -o tests/reports/allure-report --clean
-
-# 3. 检查Jenkins日志
-# 在Jenkins构建页面查看Console Output
-```
+3. **权限问题**：
+   - 确保Jenkins用户有读写权限
 
 #### 替代方案
-如果Allure报告仍无法显示，可以：
-1. 使用HTML报告（已在Jenkins中配置）
-2. 下载allure-results文件手动生成报告
-3. 检查Jenkins系统日志获取详细错误信息
+如果Allure配置复杂，可以使用：
+1. **HTML报告**：已配置，直接在Jenkins中查看
+2. **手动生成**：下载allure-results文件夹，本地运行`allure generate`
+3. **简化测试**：暂时移除Allure，专注于核心功能
 
 ### 4. PDF报告生成失败
 - 确保requirements.txt中包含weasyprint
