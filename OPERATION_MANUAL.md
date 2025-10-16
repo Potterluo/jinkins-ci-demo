@@ -59,11 +59,23 @@ docker run -d -p 5000:5000 --name registry registry:2
 - 脚本路径: `Jenkinsfile`
 
 ### 2. Allure报告配置
-在Jenkins全局工具配置中：
-- 安装Allure Commandline（如果尚未安装）
+在Jenkins中配置Allure报告：
+
+#### 全局工具配置
 - 进入"Manage Jenkins" → "Global Tool Configuration"
 - 找到"Allure Commandline"，点击新增安装
 - 选择合适的版本（推荐2.24+）
+- 保存配置
+
+#### 插件安装验证
+确保以下插件已安装：
+- Allure Jenkins Plugin
+- 确保插件版本与Jenkins版本兼容
+
+#### 报告路径说明
+- Allure原始数据：`tests/reports/allure-results`
+- Jenkins自动从这些数据生成HTML报告
+- 报告会在构建页面显示"Allure Report"链接
 
 ### 4. 环境变量配置
 在Jenkins Job中配置以下环境变量：
@@ -271,10 +283,48 @@ python scripts/generate_pdf_report.py
 - 确保服务健康检查路径正确
 - 查看Docker Compose日志
 
-### 3. Allure报告无法生成
-- 确保Jenkins安装了Allure插件
-- 检查allure-results目录是否存在
-- 确认pytest-allure-adaptor版本兼容
+### 3. Allure报告无法显示
+
+#### 检查Jenkins配置
+1. **插件安装**：
+   - 确认Allure Jenkins Plugin已安装
+   - 检查插件版本兼容性
+
+2. **全局工具配置**：
+   - 进入"Manage Jenkins" → "Global Tool Configuration"
+   - 确认Allure Commandline已正确安装
+   - 版本建议：2.24+
+
+3. **权限设置**：
+   - 确保Jenkins有权限访问allure-results目录
+   - 检查文件权限设置
+
+#### 检查构建过程
+1. **数据生成**：
+   - 确认pytest生成了allure-results目录
+   - 检查目录中是否包含JSON文件
+
+2. **Jenkinsfile配置**：
+   - 确认allure步骤路径正确：`tests/reports/allure-results`
+   - 检查是否有错误日志
+
+#### 常见解决方案
+```bash
+# 1. 检查allure-results目录内容
+ls -la tests/reports/allure-results/
+
+# 2. 手动生成Allure报告验证数据
+allure generate tests/reports/allure-results -o tests/reports/allure-report --clean
+
+# 3. 检查Jenkins日志
+# 在Jenkins构建页面查看Console Output
+```
+
+#### 替代方案
+如果Allure报告仍无法显示，可以：
+1. 使用HTML报告（已在Jenkins中配置）
+2. 下载allure-results文件手动生成报告
+3. 检查Jenkins系统日志获取详细错误信息
 
 ### 4. PDF报告生成失败
 - 确保requirements.txt中包含weasyprint

@@ -45,6 +45,16 @@ pipeline {
             post {
                 always {
                     generateSimpleReports()
+
+                    // 运行Allure调试脚本
+                    script {
+                        try {
+                            sh "python scripts/debug_allure.py || echo 'Allure debug script failed'"
+                        } catch (Exception e) {
+                            echo "Failed to run Allure debug script: ${e.getMessage()}"
+                        }
+                    }
+
                     cleanupResources()
                 }
                 success {
@@ -143,15 +153,28 @@ pipeline {
                     // 发布Allure报告
                     script {
                         try {
-                            allure([
-                                includeProperties: false,
-                                jdk: '',
-                                properties: [],
-                                reportBuildPolicy: 'ALWAYS',
-                                results: [[path: 'tests/reports/allure-results']]
-                            ])
+                            // 检查allure-results目录是否存在
+                            def allureResultsExist = fileExists('tests/reports/allure-results')
+                            echo "Allure results directory exists: ${allureResultsExist}"
+
+                            if (allureResultsExist) {
+                                // 列出allure-results目录内容
+                                sh "ls -la tests/reports/allure-results/ || echo 'No allure-results files found'"
+
+                                allure([
+                                    includeProperties: false,
+                                    jdk: '',
+                                    properties: [],
+                                    reportBuildPolicy: 'ALWAYS',
+                                    results: [[path: 'tests/reports/allure-results']]
+                                ])
+                                echo "Allure report published successfully"
+                            } else {
+                                echo "Allure results directory not found, skipping Allure report generation"
+                            }
                         } catch (Exception e) {
                             echo "Allure report generation failed: ${e.getMessage()}"
+                            echo "Stack trace: ${e.getStackTrace()}"
                             echo "Continuing with other report types..."
                         }
                     }
@@ -239,6 +262,15 @@ def generateSimpleReports() {
 
     // 收集测试结果
     sh "mkdir -p ${REPORT_DIR}"
+
+    // 检查allure-results目录
+    def allureExists = fileExists('tests/reports/allure-results')
+    echo "Allure results directory exists: ${allureExists}"
+
+    if (allureExists) {
+        sh "ls -la tests/reports/allure-results/ || echo 'No allure files found'"
+        sh "find tests/reports/allure-results/ -name '*.json' | wc -l || echo 'Cannot count JSON files'"
+    }
 
     // 复制测试报告
     sh "cp -r tests/reports/* ${REPORT_DIR}/ || true"
