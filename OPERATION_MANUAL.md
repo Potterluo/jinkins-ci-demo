@@ -27,7 +27,22 @@
 - HTML Publisher Plugin
 ```
 
-### 3. Docker Registry配置（可选）
+### 3. 镜像源优化配置（推荐）
+在阿里云环境下，建议配置镜像源以加速构建：
+
+#### Docker镜像构建优化
+项目已配置阿里云镜像源：
+- **APT源**: 使用阿里云Debian镜像源加速系统包下载
+- **PyPI源**: 使用阿里云PyPI镜像源加速Python包下载
+
+#### 手动配置PyPI源（可选）
+如果需要在其他环境使用阿里云源：
+```bash
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+pip config set install.trusted-host mirrors.aliyun.com
+```
+
+### 4. Docker Registry配置（可选）
 如果需要推送镜像，配置Docker Registry：
 ```bash
 # 启动本地Registry（可选）
@@ -50,7 +65,7 @@ docker run -d -p 5000:5000 --name registry registry:2
 - 找到"Allure Commandline"，点击新增安装
 - 选择合适的版本（推荐2.24+）
 
-### 3. 环境变量配置
+### 4. 环境变量配置
 在Jenkins Job中配置以下环境变量：
 ```bash
 DOCKER_REGISTRY=127.0.0.1:5000  # Docker Registry地址
