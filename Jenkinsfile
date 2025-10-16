@@ -261,8 +261,6 @@ def sendNotification(testType, status) {
                 to: "${EMAIL_RECIPIENTS}",
                 attachmentsPattern: 'tests/reports/*.pdf', // 注意：HTML文件可能无法作为附件正确发送，建议使用PDF
                 mimeType: 'text/html',
-                // 添加以下这一行，这是解决问题的关键
-                mailer: 'Default Mailer' // 这个名字必须和您在“Extended E-mail Notification”高级设置中的“Default Mailer”名称完全一致
             )
         } catch (Exception e) {
             echo "Failed to send email notification: ${e.getMessage()}"
