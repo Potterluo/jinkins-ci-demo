@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Test response time is within acceptable limits","0","test_response_time","tests","2025-10-16","passed","2025-10-16","TestHelloWorldService","test_app","",""
+"Test hello world endpoint","0","test_hello_world","tests","2025-10-16","passed","2025-10-16","TestHelloWorldService","test_app","",""
+"Test handling of invalid endpoints","0","test_invalid_endpoint","tests","2025-10-16","passed","2025-10-16","TestHelloWorldService","test_app","",""
+"Test health check endpoint","3","test_health_check","tests","2025-10-16","passed","2025-10-16","TestHelloWorldService","test_app","",""

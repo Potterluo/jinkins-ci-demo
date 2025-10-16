@@ -139,6 +139,15 @@ pipeline {
                         reportName: 'Test Report',
                         reportTitles: 'Pytest Test Results'
                     ])
+
+                    // 发布Allure报告
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: 'tests/reports/allure-results']]
+                    ])
                 }
             }
         }
@@ -204,7 +213,7 @@ def runSimpleTest() {
         sleep 30
 
         // 运行测试
-        sh "docker-compose -f docker-compose.test.yml run --rm test pytest -v --html=tests/reports/test_report.html"
+        sh "docker-compose -f docker-compose.test.yml run --rm test pytest -v --html=tests/reports/test_report.html --alluredir=tests/reports/allure-results"
 
     } catch (Exception e) {
         echo "Test execution failed: ${e.getMessage()}"
