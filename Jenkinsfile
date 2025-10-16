@@ -243,10 +243,10 @@ def sendNotification(testType, status) {
             <p><strong>Status:</strong> ${status}</p>
             <p><strong>Test Type:</strong> ${testType}</p>
             <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-            <p><strong>Test Report:</strong> <a href="${env.BUILD_URL}Test_Report/">${env.BUILD_URL}Test_Report/</a></p>
+            <p><strong>Test Report:</strong> <a href="${env.BUILD_URL}allure">Allure Report</a></p>
 
             <h3>Test Summary</h3>
-            <p>Please check the attached reports and <a href="${env.BUILD_URL}Test_Report/">online test report</a> for detailed test results.</p>
+            <p>Please check the attached reports and <a href="${env.BUILD_URL}allure">online test report</a> for detailed test results.</p>
 
             <p>Best regards,<br>Jenkins CI/CD System</p>
         </body>
@@ -254,13 +254,15 @@ def sendNotification(testType, status) {
         """
 
         try {
-            // 发送邮件
+            // 发送邮件，关键：添加 mailer 参数
             emailext(
                 subject: subject,
                 body: body,
                 to: "${EMAIL_RECIPIENTS}",
-                attachmentsPattern: 'tests/reports/*.html',
-                mimeType: 'text/html'
+                attachmentsPattern: 'tests/reports/*.pdf', // 注意：HTML文件可能无法作为附件正确发送，建议使用PDF
+                mimeType: 'text/html',
+                // 添加以下这一行，这是解决问题的关键
+                mailer: 'Default Mailer' // 这个名字必须和您在“Extended E-mail Notification”高级设置中的“Default Mailer”名称完全一致
             )
         } catch (Exception e) {
             echo "Failed to send email notification: ${e.getMessage()}"
