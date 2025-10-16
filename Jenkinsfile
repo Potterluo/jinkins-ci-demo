@@ -141,13 +141,20 @@ pipeline {
                     ])
 
                     // 发布Allure报告
-                    allure([
-                        includeProperties: false,
-                        jdk: '',
-                        properties: [],
-                        reportBuildPolicy: 'ALWAYS',
-                        results: [[path: 'tests/reports/allure-results']]
-                    ])
+                    script {
+                        try {
+                            allure([
+                                includeProperties: false,
+                                jdk: '',
+                                properties: [],
+                                reportBuildPolicy: 'ALWAYS',
+                                results: [[path: 'tests/reports/allure-results']]
+                            ])
+                        } catch (Exception e) {
+                            echo "Allure report generation failed: ${e.getMessage()}"
+                            echo "Continuing with other report types..."
+                        }
+                    }
                 }
             }
         }

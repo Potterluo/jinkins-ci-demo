@@ -6,11 +6,12 @@ WORKDIR /app
 ENV PYTHONPATH=/app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
 # Create reports directory
 RUN mkdir -p tests/reports
 
-CMD ["pytest", "-v", "--tb=short", "--html=tests/reports/test_report.html"]
+CMD ["pytest", "-v", "--tb=short", "--html=tests/reports/test_report.html", "--alluredir=tests/reports/allure-results"]
