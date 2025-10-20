@@ -135,13 +135,6 @@ h2 {
     color: #111827;
     font-weight: 500;
     transition: all 0.15s ease;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #f3f4f6;
-    border-color: #d1d5db;
-    transform: scale(1.05);
 }
 
 /* 图标样式 */
@@ -326,6 +319,167 @@ footer {
 
 /* 隐藏类 */
 .hidden { display: none; }
+
+/* 无JavaScript切换功能 */
+.toggle-radio {
+    display: none;
+}
+
+.toggle-panel {
+    display: none;
+    margin-top: 0.75rem;
+}
+
+.toggle-radio:checked ~ .toggle-panel {
+    display: block;
+}
+
+/* 箭头旋转动画 */
+.chevron-icon {
+    transition: transform 0.2s ease;
+}
+
+.toggle-radio:checked ~ .btn .chevron-icon {
+    transform: rotate(180deg);
+}
+
+/* 按钮样式调整 */
+.btn {
+    cursor: pointer;
+    user-select: none;
+}
+
+.btn:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+    transform: scale(1.05);
+}
+
+/* 纯CSS图表样式 */
+.css-chart {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.css-bar-chart {
+    height: 120px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 0 1rem;
+    gap: 1rem;
+}
+
+.bar {
+    flex: 1;
+    background: linear-gradient(to top, #2dae7d, #85d5b7);
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    min-height: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.bar:hover {
+    background: linear-gradient(to top, #1e8a61, #46c897);
+    transform: translateY(-2px);
+}
+
+.bar-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.bar-value {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #374151;
+    white-space: nowrap;
+}
+
+/* 纯CSS折线图 */
+.css-line-chart {
+    height: 120px;
+    position: relative;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.line-chart-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.line-chart-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.data-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #2dae7d;
+    border: 2px solid white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 2;
+}
+
+.data-point:hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    background: #1e8a61;
+}
+
+.data-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.data-value {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #374151;
+    white-space: nowrap;
+}
+
+/* 图表网格背景 */
+.chart-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+}
 
 /* 布局工具类 */
 .flex-column { flex-direction: column; }

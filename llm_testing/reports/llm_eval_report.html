@@ -8,10 +8,6 @@
     <!-- 本地CSS文件 -->
     <link rel="stylesheet" href="./llm_report_styles.css">
     <link rel="stylesheet" href="./animate.css">
-
-    <!-- 本地JavaScript文件 -->
-    <script src="./preline.js"></script>
-    <script src="./chart.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -49,7 +45,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>构建ID</th><th>日期</th><th>Time to First Token (ms)</th><th>Time Per Output Token (ms)</th><th>99th Percentile Latency (s)</th><th>端到端吞吐 (tokens/s)</th>
+                        <th>构建ID</th><th>日期</th><th>TTFT (ms)</th><th>TPOT (ms)</th><th>P99 (s)</th><th>Throughput (tokens/s)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,22 +58,35 @@
 
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button class="btn">
+                        <input type="checkbox" id="toggle-aisbench" class="toggle-radio">
+                        <label for="toggle-aisbench" class="btn">
                             <span class="font-medium">📈 关键指标趋势</span>
                             <svg class="chevron-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M722.773333 381.44a64 64 0 0 1 90.453334 90.453333l-252.970667 253.013334a68.266667 68.266667 0 0 1-96.512 0l-253.013333-253.013334a64 64 0 0 1 90.538666-90.453333L512 592.128l210.773333-210.773333z" />
                             </svg>
-                        </button>
-                        <div class="hidden mt-3">
+                        </label>
+                        <div class="toggle-panel">
                             <div class="chart-list">
                                 
         <div class="chart-container">
             <div class="chart-header">
-                <h4 class="chart-title">Time to First Token (ms)</h4>
+                <h4 class="chart-title">TTFT (ms)</h4>
                 <span class="chart-type">柱状图</span>
             </div>
-            <div class="chart-canvas-container">
-                <canvas id="chart-TTFT-bar"></canvas>
+            <div class="css-chart">
+                <div class="css-bar-chart">
+                    
+            <div class="bar" style="height: 100.0%">
+                <div class="bar-value">0.62</div>
+                <div class="bar-label">local-test-1</div>
+            </div>
+            
+            <div class="bar" style="height: 10%">
+                <div class="bar-value">0.45</div>
+                <div class="bar-label">local-test-2</div>
+            </div>
+            
+                </div>
             </div>
             <p class="chart-description">Time from input submission to first token generated</p>
         </div>
@@ -85,11 +94,23 @@
 
         <div class="chart-container">
             <div class="chart-header">
-                <h4 class="chart-title">端到端吞吐 (tokens/s)</h4>
+                <h4 class="chart-title">Throughput (tokens/s)</h4>
                 <span class="chart-type">柱状图</span>
             </div>
-            <div class="chart-canvas-container">
-                <canvas id="chart-Throughput-bar"></canvas>
+            <div class="css-chart">
+                <div class="css-bar-chart">
+                    
+            <div class="bar" style="height: 10%">
+                <div class="bar-value">10.86</div>
+                <div class="bar-label">local-test-1</div>
+            </div>
+            
+            <div class="bar" style="height: 100.0%">
+                <div class="bar-value">12.81</div>
+                <div class="bar-label">local-test-2</div>
+            </div>
+            
+                </div>
             </div>
             <p class="chart-description">99% of requests finish within this time</p>
         </div>
@@ -133,13 +154,14 @@
 
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button class="btn">
+                        <input type="checkbox" id="toggle-llmperf" class="toggle-radio">
+                        <label for="toggle-llmperf" class="btn">
                             <span class="font-medium">📈 关键指标趋势</span>
                             <svg class="chevron-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M722.773333 381.44a64 64 0 0 1 90.453334 90.453333l-252.970667 253.013334a68.266667 68.266667 0 0 1-96.512 0l-253.013333-253.013334a64 64 0 0 1 90.538666-90.453333L512 592.128l210.773333-210.773333z" />
                             </svg>
-                        </button>
-                        <div class="hidden mt-3">
+                        </label>
+                        <div class="toggle-panel">
                             <div class="chart-list">
                                 
         <div class="chart-container">
@@ -147,8 +169,33 @@
                 <h4 class="chart-title">Average Latency (ms)</h4>
                 <span class="chart-type">折线图</span>
             </div>
-            <div class="chart-canvas-container">
-                <canvas id="chart-avg_latency-line"></canvas>
+            <div class="css-chart">
+                <div class="css-line-chart">
+                    <div class="chart-grid"></div>
+                    <svg class="line-chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <polyline
+                            points=" 0.0,5.0 100.0,95.0 "
+                            fill="none"
+                            stroke="#2dae7d"
+                            stroke-width="2"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                    <div class="line-chart-container">
+                        
+            <div class="data-point" style="left: 0.0%; top: 5.0%">
+                <div class="data-value">312.45</div>
+                <div class="data-label">local-test-1</div>
+            </div>
+            
+            <div class="data-point" style="left: 100.0%; top: 95.0%">
+                <div class="data-value">234.56</div>
+                <div class="data-label">local-test-2</div>
+            </div>
+            
+                    </div>
+                </div>
             </div>
             <p class="chart-description">Average end-to-end response latency</p>
         </div>
@@ -159,8 +206,33 @@
                 <h4 class="chart-title">50th Percentile Latency (ms)</h4>
                 <span class="chart-type">折线图</span>
             </div>
-            <div class="chart-canvas-container">
-                <canvas id="chart-p50_latency-line"></canvas>
+            <div class="css-chart">
+                <div class="css-line-chart">
+                    <div class="chart-grid"></div>
+                    <svg class="line-chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <polyline
+                            points=" 0.0,5.0 100.0,95.0 "
+                            fill="none"
+                            stroke="#2dae7d"
+                            stroke-width="2"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                    <div class="line-chart-container">
+                        
+            <div class="data-point" style="left: 0.0%; top: 5.0%">
+                <div class="data-value">267.89</div>
+                <div class="data-label">local-test-1</div>
+            </div>
+            
+            <div class="data-point" style="left: 100.0%; top: 95.0%">
+                <div class="data-value">198.32</div>
+                <div class="data-label">local-test-2</div>
+            </div>
+            
+                    </div>
+                </div>
             </div>
             <p class="chart-description">Median response latency</p>
         </div>
@@ -204,13 +276,14 @@
 
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button class="btn">
+                        <input type="checkbox" id="toggle-mmlu" class="toggle-radio">
+                        <label for="toggle-mmlu" class="btn">
                             <span class="font-medium">📈 关键指标趋势</span>
                             <svg class="chevron-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M722.773333 381.44a64 64 0 0 1 90.453334 90.453333l-252.970667 253.013334a68.266667 68.266667 0 0 1-96.512 0l-253.013333-253.013334a64 64 0 0 1 90.538666-90.453333L512 592.128l210.773333-210.773333z" />
                             </svg>
-                        </button>
-                        <div class="hidden mt-3">
+                        </label>
+                        <div class="toggle-panel">
                             <div class="chart-list">
                                 
         <div class="chart-container">
@@ -218,8 +291,33 @@
                 <h4 class="chart-title">Accuracy (%)</h4>
                 <span class="chart-type">折线图</span>
             </div>
-            <div class="chart-canvas-container">
-                <canvas id="chart-accuracy-line"></canvas>
+            <div class="css-chart">
+                <div class="css-line-chart">
+                    <div class="chart-grid"></div>
+                    <svg class="line-chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <polyline
+                            points=" 0.0,95.0 100.0,5.0 "
+                            fill="none"
+                            stroke="#2dae7d"
+                            stroke-width="2"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                    <div class="line-chart-container">
+                        
+            <div class="data-point" style="left: 0.0%; top: 95.0%">
+                <div class="data-value">76.21</div>
+                <div class="data-label">local-test-1</div>
+            </div>
+            
+            <div class="data-point" style="left: 100.0%; top: 5.0%">
+                <div class="data-value">78.45</div>
+                <div class="data-label">local-test-2</div>
+            </div>
+            
+                    </div>
+                </div>
             </div>
             <p class="chart-description">Overall accuracy across all subjects</p>
         </div>
@@ -230,8 +328,33 @@
                 <h4 class="chart-title">F1 Score ()</h4>
                 <span class="chart-type">折线图</span>
             </div>
-            <div class="chart-canvas-container">
-                <canvas id="chart-f1_score-line"></canvas>
+            <div class="css-chart">
+                <div class="css-line-chart">
+                    <div class="chart-grid"></div>
+                    <svg class="line-chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <polyline
+                            points=" 0.0,95.0 100.0,5.0 "
+                            fill="none"
+                            stroke="#2dae7d"
+                            stroke-width="2"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                    <div class="line-chart-container">
+                        
+            <div class="data-point" style="left: 0.0%; top: 95.0%">
+                <div class="data-value">0.761</div>
+                <div class="data-label">local-test-1</div>
+            </div>
+            
+            <div class="data-point" style="left: 100.0%; top: 5.0%">
+                <div class="data-value">0.782</div>
+                <div class="data-label">local-test-2</div>
+            </div>
+            
+                    </div>
+                </div>
             </div>
             <p class="chart-description">Macro-averaged F1 score</p>
         </div>
@@ -250,7 +373,7 @@
         <div class="container">
             <div class="footer-content">
                 <p class="footer-text">
-                    生成时间: 2025-10-20 20:28:11
+                    生成时间: 2025-10-20 20:43:35
                 </p>
                 <p class="footer-text mt-2">
                     © 2025 LLM测试框架
@@ -259,396 +382,25 @@
         </div>
     </footer>
 
-    <!-- 外部JavaScript文件 -->
-    <script src="./llm_report_scripts.js"></script>
-
-    <!-- 图表初始化脚本 -->
-    <script>
-        // Chart.js global configuration
-        if (typeof Chart !== 'undefined') {
-            Chart.defaults.font.family = "'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'";
-            Chart.defaults.color = '#6b7280';
-            Chart.defaults.font.size = 11;
+    <!-- 无JavaScript版本 - 纯CSS交互 -->
+    <style>
+        /* 简单的图表占位符样式 */
+        .chart-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            font-weight: 500;
+            margin-bottom: 1rem;
         }
 
-        document.addEventListener('DOMContentLoaded', function() { 
-                new Chart(document.getElementById('chart-TTFT-bar'), {
-                    type: 'bar',
-                    data: {
-                        labels: ["local-test-1", "local-test-2"],
-                        datasets: [{
-                            label: 'Time to First Token',
-                            data: [0.62, 0.45],
-                            backgroundColor: 'rgba(45, 174, 125, 0.7)',
-                            borderColor: '#2dae7d',
-                            borderWidth: 1,
-                            borderRadius: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleFont: {
-                                    size: 12
-                                },
-                                bodyFont: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    },
-                                    maxRotation: 45,
-                                    minRotation: 45
-                                }
-                            }
-                        }
-                    }
-                });
-             });
-document.addEventListener('DOMContentLoaded', function() { 
-                new Chart(document.getElementById('chart-Throughput-bar'), {
-                    type: 'bar',
-                    data: {
-                        labels: ["local-test-1", "local-test-2"],
-                        datasets: [{
-                            label: '端到端吞吐',
-                            data: [10.86, 12.81],
-                            backgroundColor: 'rgba(45, 174, 125, 0.7)',
-                            borderColor: '#2dae7d',
-                            borderWidth: 1,
-                            borderRadius: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleFont: {
-                                    size: 12
-                                },
-                                bodyFont: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: false,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    },
-                                    maxRotation: 45,
-                                    minRotation: 45
-                                }
-                            }
-                        }
-                    }
-                });
-             });
-document.addEventListener('DOMContentLoaded', function() { 
-                new Chart(document.getElementById('chart-avg_latency-line'), {
-                    type: 'line',
-                    data: {
-                        labels: ["local-test-1", "local-test-2"],
-                        datasets: [{
-                            label: 'Average Latency',
-                            data: [312.45, 234.56],
-                            borderColor: '#2dae7d',
-                            backgroundColor: 'rgba(45, 174, 125, 0.1)',
-                            tension: 0.2,
-                            fill: false,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleFont: {
-                                    size: 12
-                                },
-                                bodyFont: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    },
-                                    maxRotation: 45,
-                                    minRotation: 45
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    }
-                });
-             });
-document.addEventListener('DOMContentLoaded', function() { 
-                new Chart(document.getElementById('chart-p50_latency-line'), {
-                    type: 'line',
-                    data: {
-                        labels: ["local-test-1", "local-test-2"],
-                        datasets: [{
-                            label: '50th Percentile Latency',
-                            data: [267.89, 198.32],
-                            borderColor: '#2dae7d',
-                            backgroundColor: 'rgba(45, 174, 125, 0.1)',
-                            tension: 0.2,
-                            fill: false,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleFont: {
-                                    size: 12
-                                },
-                                bodyFont: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    },
-                                    maxRotation: 45,
-                                    minRotation: 45
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    }
-                });
-             });
-document.addEventListener('DOMContentLoaded', function() { 
-                new Chart(document.getElementById('chart-accuracy-line'), {
-                    type: 'line',
-                    data: {
-                        labels: ["local-test-1", "local-test-2"],
-                        datasets: [{
-                            label: 'Accuracy',
-                            data: [76.21, 78.45],
-                            borderColor: '#2dae7d',
-                            backgroundColor: 'rgba(45, 174, 125, 0.1)',
-                            tension: 0.2,
-                            fill: false,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleFont: {
-                                    size: 12
-                                },
-                                bodyFont: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: false,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    },
-                                    maxRotation: 45,
-                                    minRotation: 45
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    }
-                });
-             });
-document.addEventListener('DOMContentLoaded', function() { 
-                new Chart(document.getElementById('chart-f1_score-line'), {
-                    type: 'line',
-                    data: {
-                        labels: ["local-test-1", "local-test-2"],
-                        datasets: [{
-                            label: 'F1 Score',
-                            data: [0.761, 0.782],
-                            borderColor: '#2dae7d',
-                            backgroundColor: 'rgba(45, 174, 125, 0.1)',
-                            tension: 0.2,
-                            fill: false,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleFont: {
-                                    size: 12
-                                },
-                                bodyFont: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: false,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 10
-                                    },
-                                    maxRotation: 45,
-                                    minRotation: 45
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    }
-                });
-             });
-    </script>
+        .chart-placeholder::before {
+            content: "📊";
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </body>
 </html>

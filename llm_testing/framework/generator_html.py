@@ -56,10 +56,6 @@ class LLMReportGenerator:
     <!-- 本地CSS文件 -->
     <link rel="stylesheet" href="./llm_report_styles.css">
     <link rel="stylesheet" href="./animate.css">
-
-    <!-- 本地JavaScript文件 -->
-    <script src="./preline.js"></script>
-    <script src="./chart.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -95,20 +91,26 @@ class LLMReportGenerator:
         </div>
     </footer>
 
-    <!-- 外部JavaScript文件 -->
-    <script src="./llm_report_scripts.js"></script>
-
-    <!-- 图表初始化脚本 -->
-    <script>
-        // Chart.js global configuration
-        if (typeof Chart !== 'undefined') {{
-            Chart.defaults.font.family = "'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'";
-            Chart.defaults.color = '#6b7280';
-            Chart.defaults.font.size = 11;
+    <!-- 无JavaScript版本 - 纯CSS交互 -->
+    <style>
+        /* 简单的图表占位符样式 */
+        .chart-placeholder {{
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            font-weight: 500;
+            margin-bottom: 1rem;
         }}
 
-        {self.generate_chart_scripts()}
-    </script>
+        .chart-placeholder::before {{
+            content: "📊";
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }}
+    </style>
 </body>
 </html>"""
         
@@ -134,10 +136,7 @@ class LLMReportGenerator:
         # 要复制的文件列表
         static_files = [
             "llm_report_styles.css",
-            "llm_report_scripts.js",
-            "animate.css",
-            "preline.js",
-            "chart.js"
+            "animate.css"
         ]
 
         for filename in static_files:
@@ -194,13 +193,14 @@ class LLMReportGenerator:
 
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button class="btn">
+                        <input type="checkbox" id="toggle-{tool_id}" class="toggle-radio">
+                        <label for="toggle-{tool_id}" class="btn">
                             <span class="font-medium">📈 关键指标趋势</span>
                             <svg class="chevron-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M722.773333 381.44a64 64 0 0 1 90.453334 90.453333l-252.970667 253.013334a68.266667 68.266667 0 0 1-96.512 0l-253.013333-253.013334a64 64 0 0 1 90.538666-90.453333L512 592.128l210.773333-210.773333z" />
                             </svg>
-                        </button>
-                        <div class="hidden mt-3">
+                        </label>
+                        <div class="toggle-panel">
                             <div class="chart-list">
                                 {self.generate_charts(tool_data['runs'], tool_data['metrics_schema'])}
                             </div>
@@ -292,54 +292,138 @@ class LLMReportGenerator:
     def generate_chart_container(self, runs, metric, chart_type):
         """Generate chart container HTML"""
         chart_id = f"chart-{metric['name']}-{chart_type}"
-        
+
+        if not runs:
+            return f"""
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h4 class="chart-title">{metric['display_name']} ({metric['unit']})</h4>
+                    <span class="chart-type">{chart_type == 'line' and '折线图' or '柱状图'}</span>
+                </div>
+                <div class="chart-placeholder">
+                    无数据
+                </div>
+                <p class="chart-description">{metric['description']}</p>
+            </div>
+            """
+
+        # 准备数据
+        labels = []
+        values = []
+        for run in sorted(runs, key=lambda x: x['timestamp']):
+            labels.append(run['build_id'])
+            value = run['metrics'].get(metric['name'], 0)
+            values.append(value)
+
+        if chart_type == 'bar':
+            return self.generate_css_bar_chart(metric, labels, values)
+        else:  # line chart
+            return self.generate_css_line_chart(metric, labels, values)
+    
+    def generate_css_bar_chart(self, metric, labels, values):
+        """Generate CSS bar chart HTML"""
+        if not values:
+            return ""
+
+        # 计算最大值用于缩放
+        max_value = max(values) if values else 1
+        min_value = min(values) if values else 0
+        range_value = max_value - min_value if max_value != min_value else 1
+
+        bars_html = []
+        for i, (label, value) in enumerate(zip(labels, values)):
+            # 计算高度百分比 (最小10%以确保可见性)
+            height_percent = max(10, ((value - min_value) / range_value) * 90 + 10)
+
+            # 格式化显示值
+            formatted_value = metric['format'].format(value)
+
+            bars_html.append(f"""
+            <div class="bar" style="height: {height_percent}%">
+                <div class="bar-value">{formatted_value}</div>
+                <div class="bar-label">{label}</div>
+            </div>
+            """)
+
         return f"""
         <div class="chart-container">
             <div class="chart-header">
                 <h4 class="chart-title">{metric['display_name']} ({metric['unit']})</h4>
-                <span class="chart-type">{chart_type == 'line' and '折线图' or '柱状图'}</span>
+                <span class="chart-type">柱状图</span>
             </div>
-            <div class="chart-canvas-container">
-                <canvas id="{chart_id}"></canvas>
+            <div class="css-chart">
+                <div class="css-bar-chart">
+                    {''.join(bars_html)}
+                </div>
             </div>
             <p class="chart-description">{metric['description']}</p>
         </div>
         """
-    
+
+    def generate_css_line_chart(self, metric, labels, values):
+        """Generate CSS line chart HTML using SVG"""
+        if not values:
+            return ""
+
+        # 计算最大最小值用于缩放
+        max_value = max(values) if values else 1
+        min_value = min(values) if values else 0
+        range_value = max_value - min_value if max_value != min_value else 1
+
+        # 生成SVG点和线
+        points_html = []
+        points_data = []
+
+        for i, (label, value) in enumerate(zip(labels, values)):
+            # 计算位置
+            x_percent = (i / (len(labels) - 1)) * 100 if len(labels) > 1 else 50
+            y_percent = 100 - (((value - min_value) / range_value) * 90 + 5)  # 留5%边距
+
+            # 格式化显示值
+            formatted_value = metric['format'].format(value)
+
+            points_data.append(f"{x_percent},{y_percent}")
+            points_html.append(f"""
+            <div class="data-point" style="left: {x_percent}%; top: {y_percent}%">
+                <div class="data-value">{formatted_value}</div>
+                <div class="data-label">{label}</div>
+            </div>
+            """)
+
+        # 生成SVG polyline
+        polyline_points = " " + " ".join(points_data) + " "
+
+        return f"""
+        <div class="chart-container">
+            <div class="chart-header">
+                <h4 class="chart-title">{metric['display_name']} ({metric['unit']})</h4>
+                <span class="chart-type">折线图</span>
+            </div>
+            <div class="css-chart">
+                <div class="css-line-chart">
+                    <div class="chart-grid"></div>
+                    <svg class="line-chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <polyline
+                            points="{polyline_points}"
+                            fill="none"
+                            stroke="#2dae7d"
+                            stroke-width="2"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                    <div class="line-chart-container">
+                        {''.join(points_html)}
+                    </div>
+                </div>
+            </div>
+            <p class="chart-description">{metric['description']}</p>
+        </div>
+        """
+
     def generate_chart_scripts(self):
-        """Generate JavaScript for all charts"""
-        scripts = []
-        
-        for tool_name, tool_data in self.test_data.items():
-            # Select key metrics for charts
-            key_metrics = []
-            priority_metrics = ['TTFT', 'Throughput', 'accuracy', 'f1_score']
-            
-            # Add priority metrics first
-            for metric_name in priority_metrics:
-                for metric in tool_data['metrics_schema']:
-                    if metric['name'] == metric_name and len(key_metrics) < 2:
-                        key_metrics.append(metric)
-            
-            # Fill with other metrics if needed
-            for metric in tool_data['metrics_schema']:
-                if len(key_metrics) >= 2:
-                    break
-                if not any(m['name'] == metric['name'] for m in key_metrics):
-                    key_metrics.append(metric)
-            
-            # Generate scripts for selected metrics
-            for metric in key_metrics:
-                chart_type = metric.get('default_chart_type')
-                if chart_type in ['line', 'bar']:
-                    script = self.generate_chart_script(
-                        tool_data['runs'], 
-                        metric, 
-                        chart_type
-                    )
-                    scripts.append(script)
-        
-        return '\n'.join(scripts)
+        """No JavaScript needed for CSS-only version"""
+        return ""
     
     def generate_chart_script(self, runs, metric, chart_type):
         """Generate JavaScript for a specific chart"""
