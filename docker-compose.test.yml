@@ -1,0 +1,24 @@
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:5000"
+    environment:
+      - PORT=5000
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    depends_on:
+      - app
+    volumes:
+      - ./tests/reports:/app/tests/reports
+    environment:
+      - APP_URL=http://app:5000
+    command: pytest -v --tb=short --alluredir=tests/reports/allure-results
+
+networks:
+  default:
+    name: hello-world-network
