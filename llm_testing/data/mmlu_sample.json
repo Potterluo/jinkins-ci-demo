@@ -1,0 +1,74 @@
+{
+  "tool": "MMLU",
+  "description": "Massive Multitask Language Understanding benchmark for evaluating knowledge and reasoning",
+  "metrics_schema": [
+    {
+      "name": "accuracy",
+      "display_name": "Accuracy",
+      "unit": "%",
+      "description": "Overall accuracy across all subjects",
+      "lower_is_better": false,
+      "format": "{:.2f}",
+      "default_chart_type": "line"
+    },
+    {
+      "name": "f1_score",
+      "display_name": "F1 Score",
+      "unit": "",
+      "description": "Macro-averaged F1 score",
+      "lower_is_better": false,
+      "format": "{:.3f}",
+      "default_chart_type": "line"
+    },
+    {
+      "name": "stem_accuracy",
+      "display_name": "STEM Accuracy",
+      "unit": "%",
+      "description": "Accuracy in STEM subjects",
+      "lower_is_better": false,
+      "format": "{:.2f}",
+      "default_chart_type": "bar"
+    },
+    {
+      "name": "humanities_accuracy",
+      "display_name": "Humanities Accuracy",
+      "unit": "%",
+      "description": "Accuracy in humanities subjects",
+      "lower_is_better": false,
+      "format": "{:.2f}",
+      "default_chart_type": "bar"
+    }
+  ],
+  "runs": [
+    {
+      "build_id": "local-test-2",
+      "timestamp": "2025-04-05T10:00:00Z",
+      "env": {
+        "model": "Llama-3-8B",
+        "dataset": "MMLU-Pro",
+        "description": "MMLU Professional"
+      },
+      "metrics": {
+        "accuracy": 78.45,
+        "f1_score": 0.782,
+        "stem_accuracy": 82.1,
+        "humanities_accuracy": 75.3
+      }
+    },
+    {
+      "build_id": "local-test-1",
+      "timestamp": "2025-04-04T10:00:00Z",
+      "env": {
+        "model": "Llama-3-8B",
+        "dataset": "MMLU-Pro",
+        "description": "MMLU Professional"
+      },
+      "metrics": {
+        "accuracy": 76.21,
+        "f1_score": 0.761,
+        "stem_accuracy": 79.8,
+        "humanities_accuracy": 73.2
+      }
+    }
+  ]
+}

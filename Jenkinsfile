@@ -119,6 +119,28 @@ pipeline {
             }
         }
 
+        // ========================== LLM 测试 ============================
+        stage('LLM Tests') {
+            steps {
+                script {
+                    echo "===== Starting LLM Tests ====="
+                    checkout scm
+
+                    // 运行LLM框架测试
+                    sh "cd llm_testing && python generate_report.py"
+                }
+            }
+            post {
+                success {
+                    echo "LLM Tests completed successfully"
+                }
+                failure {
+                    echo "LLM Tests failed"
+                    currentBuild.result = 'FAILURE'
+                }
+            }
+        }
+
         // ============================ 报告汇总 ============================
         stage('Collect Reports') {
             steps {
@@ -130,15 +152,15 @@ pipeline {
                     archiveArtifacts artifacts: 'tests/reports/**', allowEmptyArchive: true
 
                     // 发布HTML报告
-                    publishHTML([
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'tests/reports',
-                        reportFiles: 'test_report.html',
-                        reportName: 'Test Report',
-                        reportTitles: 'Pytest Test Results'
-                    ])
+                    // publishHTML([
+                    //     allowMissing: false,
+                    //     alwaysLinkToLastBuild: true,
+                    //     keepAll: true,
+                    //     reportDir: 'tests/reports',
+                    //     reportFiles: 'test_report.html',
+                    //     reportName: 'Test Report',
+                    //     reportTitles: 'Pytest Test Results'
+                    // ])
 
                     // 发布Allure报告
                     script {
@@ -151,6 +173,18 @@ pipeline {
                             echo "This might be due to missing Allure Commandline in Jenkins"
                         }
                     }
+
+                    // 发布LLM测试报告
+                    publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'llm_testing/reports',
+                        reportFiles: 'llm_eval_report.html',
+                        reportName: 'LLM Eval Report',
+                        reportTitles: 'LLM Eval Results'
+                    ])
+
                 }
             }
         }
@@ -213,7 +247,7 @@ def runSimpleTest() {
 
         // 等待服务启动
         echo "Waiting for services to start..."
-        sleep 30
+        sleep 1
 
         // 运行测试
         sh "docker-compose -f docker-compose.test.yml run --rm test pytest -v --html=tests/reports/test_report.html --alluredir=tests/reports/allure-results"
@@ -250,6 +284,10 @@ def generateSimpleReports() {
     echo '=== 收集测试报告 ==='
     ls -la tests/reports/ 2>/dev/null || echo 'No reports directory found'
     cp -r tests/reports/* ${REPORT_DIR}/ 2>/dev/null || echo 'No reports to copy'
+    
+    echo '=== 收集LLM测试报告 ==='
+    ls -la llm_testing/reports/ 2>/dev/null || echo 'No LLM reports directory found'
+    cp -r llm_testing/reports/* ${REPORT_DIR}/ 2>/dev/null || echo 'No LLM reports to copy'
     echo '=== 报告收集完成 ==='
     """
 }

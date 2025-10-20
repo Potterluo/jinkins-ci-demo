@@ -1,0 +1,74 @@
+{
+  "tool": "AISBench",
+  "description": "Performance benchmark for LLM inference latency and throughput",
+  "metrics_schema": [
+    {
+      "name": "TTFT",
+      "display_name": "Time to First Token",
+      "unit": "ms",
+      "description": "Time from input submission to first token generated",
+      "lower_is_better": true,
+      "format": "{:.2f}",
+      "default_chart_type": "bar"
+    },
+    {
+      "name": "TPOT",
+      "display_name": "Time Per Output Token",
+      "unit": "ms",
+      "description": "Average time spent generating each output token",
+      "lower_is_better": true,
+      "format": "{:.2f}",
+      "default_chart_type": "bar"
+    },
+    {
+      "name": "latency_p99",
+      "display_name": "99th Percentile Latency",
+      "unit": "s",
+      "description": "99% of requests finish within this time",
+      "lower_is_better": true,
+      "format": "{:.2f}",
+      "default_chart_type": null
+    },
+    {
+      "name": "Throughput",
+      "display_name": "端到端吞吐",
+      "unit": "tokens/s",
+      "description": "99% of requests finish within this time",
+      "lower_is_better": false,
+      "format": "{:.2f}",
+      "default_chart_type": "bar"
+    }
+  ],
+  "runs": [
+    {
+      "build_id": "local-test-2",
+      "timestamp": "2025-04-05T10:00:00Z",
+      "env": {
+        "model": "Llama-3-8B",
+        "backend": "vLLM-UC",
+        "description": "vLLM-UC"
+      },
+      "metrics": {
+        "TTFT": 0.45,
+        "TPOT": 0.87,
+        "latency_p99": 1.23,
+        "Throughput": 12.81
+      }
+    },
+    {
+      "build_id": "local-test-1",
+      "timestamp": "2025-04-04T10:00:00Z",
+      "env": {
+        "model": "Llama-3-8B",
+        "backend": "HuggingFace Transformers",
+        "description": "vLLM原生"
+      },
+      "metrics": {
+        "TTFT": 0.62,
+        "TPOT": 1.05,
+        "latency_p99": 1.87,
+        "Throughput": 10.86
+      }
+    }
+  ]
+}

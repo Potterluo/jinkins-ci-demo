@@ -1,0 +1,87 @@
+{
+  "tool": "LLMPerf",
+  "description": "Comprehensive LLM performance testing framework",
+  "metrics_schema": [
+    {
+      "name": "avg_latency",
+      "display_name": "Average Latency",
+      "unit": "ms",
+      "description": "Average end-to-end response latency",
+      "lower_is_better": true,
+      "format": "{:.2f}",
+      "default_chart_type": "line"
+    },
+    {
+      "name": "p50_latency",
+      "display_name": "50th Percentile Latency",
+      "unit": "ms",
+      "description": "Median response latency",
+      "lower_is_better": true,
+      "format": "{:.2f}",
+      "default_chart_type": "line"
+    },
+    {
+      "name": "p95_latency",
+      "display_name": "95th Percentile Latency",
+      "unit": "ms",
+      "description": "95% of requests finish within this time",
+      "lower_is_better": true,
+      "format": "{:.2f}",
+      "default_chart_type": "line"
+    },
+    {
+      "name": "tokens_per_second",
+      "display_name": "Tokens per Second",
+      "unit": "tokens/s",
+      "description": "Token generation throughput",
+      "lower_is_better": false,
+      "format": "{:.2f}",
+      "default_chart_type": "bar"
+    },
+    {
+      "name": "requests_per_second",
+      "display_name": "Requests per Second",
+      "unit": "req/s",
+      "description": "Request processing throughput",
+      "lower_is_better": false,
+      "format": "{:.2f}",
+      "default_chart_type": "bar"
+    }
+  ],
+  "runs": [
+    {
+      "build_id": "local-test-2",
+      "timestamp": "2025-04-05T10:00:00Z",
+      "env": {
+        "model": "Llama-3-8B",
+        "backend": "TensorRT-LLM",
+        "batch_size": 8,
+        "max_tokens": 512
+      },
+      "metrics": {
+        "avg_latency": 234.56,
+        "p50_latency": 198.32,
+        "p95_latency": 456.78,
+        "tokens_per_second": 28.45,
+        "requests_per_second": 4.26
+      }
+    },
+    {
+      "build_id": "local-test-1",
+      "timestamp": "2025-04-04T10:00:00Z",
+      "env": {
+        "model": "Llama-3-8B",
+        "backend": "PyTorch",
+        "batch_size": 4,
+        "max_tokens": 512
+      },
+      "metrics": {
+        "avg_latency": 312.45,
+        "p50_latency": 267.89,
+        "p95_latency": 598.34,
+        "tokens_per_second": 18.23,
+        "requests_per_second": 2.87
+      }
+    }
+  ]
+}
