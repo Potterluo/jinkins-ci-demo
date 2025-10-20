@@ -136,7 +136,9 @@ pipeline {
                 }
                 failure {
                     echo "LLM Tests failed"
-                    currentBuild.result = 'FAILURE'
+                    script {
+                        currentBuild.result = 'FAILURE'
+                    }
                 }
             }
         }
@@ -262,14 +264,16 @@ def runSimpleTest() {
         """
 
     } catch (Exception e) {
-        echo "Test execution failed: ${e.getMessage()}"
+            echo "Test execution failed: ${e.getMessage()}"
 
-        // 显示Docker容器日志以便调试
-        sh "docker-compose -f docker-compose.test.yml logs || true"
+            // 显示Docker容器日志以便调试
+            sh "docker-compose -f docker-compose.test.yml logs || true"
 
-        currentBuild.result = 'FAILURE'
-        throw e
-    }
+            script {
+                currentBuild.result = 'FAILURE'
+            }
+            throw e
+        }
 }
 
 // 生成简单报告
