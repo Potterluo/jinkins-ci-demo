@@ -136,47 +136,11 @@ class LLMReportGenerator:
         }}
     </script>
     
-    <style>
-        body {{
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-            line-height: 1.6;
-        }}
-        
-        .fade-in {{
-            animation: fadeIn 0.5s ease-in;
-        }}
-        
-        @keyframes fadeIn {{
-            from {{ opacity: 0; transform: translateY(10px); }}
-            to {{ opacity: 1; transform: translateY(0); }}
-        }}
-        
-        .card-hover:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }}
-        
-        .btn-hover:hover {{
-            transform: scale(1.05);
-        }}
-        
-        .chart-container {{
-            position: relative;
-            height: 120px;
-            width: 100%;
-        }}
-        
-        .status-badge {{
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }}
-    </style>
+    <!-- 内联样式已移除，使用Tailwind CSS类替代 -->
+    <!-- 添加animate.css CDN以支持动画效果 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
-<body class="bg-neutral-50 text-gray-900 min-h-screen">
+<body class="bg-neutral-50 text-gray-900 min-h-screen font-sans leading-relaxed">
     <!-- Header -->
     <header class="bg-white shadow-sm py-6">
         <div class="container mx-auto px-4">
@@ -274,7 +238,7 @@ class LLMReportGenerator:
         """Generate HTML for a single tool card"""
         tool_id = tool_name.lower().replace(" ", "-")
         return f"""
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover transition-all duration-300 fade-in">
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:translate-y-[-2px] hover:shadow-xl transition-all duration-300 animate__animated animate__fadeIn">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-xl font-bold text-gray-900">{tool_data['tool']}</h2>
@@ -290,7 +254,7 @@ class LLMReportGenerator:
                     
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button onclick="toggleTable(this)" class="flex items-center justify-between w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                        <button onclick="toggleTable(this)" class="flex items-center justify-between w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors hover:scale-105">
                             <span class="font-medium text-gray-900">📈 关键指标趋势</span>
                             <i class="fas fa-chevron-down text-gray-500"></i>
                         </button>
@@ -393,7 +357,7 @@ class LLMReportGenerator:
                 <h4 class="font-medium text-gray-900 dark:text-white">{metric['display_name']} ({metric['unit']})</h4>
                 <span class="text-xs text-gray-500 dark:text-neutral-400">{chart_type == 'line' and '折线图' or '柱状图'}</span>
             </div>
-            <div class="chart-container">
+            <div class="relative h-32 w-full">
                 <canvas id="{chart_id}"></canvas>
             </div>
             <p class="text-xs text-gray-500 dark:text-neutral-400 mt-2">{metric['description']}</p>
