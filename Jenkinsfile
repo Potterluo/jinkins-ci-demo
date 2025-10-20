@@ -127,7 +127,7 @@ pipeline {
                     checkout scm
 
                     // 运行LLM框架测试
-                    sh "cd llm_testing && python generate_report.py"
+                    sh "cd llm_testing && python3 generate_report.py"
                 }
             }
             post {
