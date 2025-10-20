@@ -67,8 +67,7 @@ class LLMReportGenerator:
         <div class="container">
             <div class="footer-content">
                 <div>
-                    <h1>🤖 LLM测试报告</h1>
-                    <p class="text-gray-600 mt-1">AI模型性能与准确性基准测试</p>
+                    <h1>UC-Eval各项测试报告</h1>
                 </div>
             </div>
         </div>

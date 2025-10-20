@@ -4,7 +4,7 @@
   "metrics_schema": [
     {
       "name": "TTFT",
-      "display_name": "Time to First Token",
+      "display_name": "TTFT",
       "unit": "ms",
       "description": "Time from input submission to first token generated",
       "lower_is_better": true,
@@ -13,7 +13,7 @@
     },
     {
       "name": "TPOT",
-      "display_name": "Time Per Output Token",
+      "display_name": "TPOT",
       "unit": "ms",
       "description": "Average time spent generating each output token",
       "lower_is_better": true,
@@ -22,7 +22,7 @@
     },
     {
       "name": "latency_p99",
-      "display_name": "99th Percentile Latency",
+      "display_name": "P99",
       "unit": "s",
       "description": "99% of requests finish within this time",
       "lower_is_better": true,
@@ -31,7 +31,7 @@
     },
     {
       "name": "Throughput",
-      "display_name": "端到端吞吐",
+      "display_name": "Throughput",
       "unit": "tokens/s",
       "description": "99% of requests finish within this time",
       "lower_is_better": false,

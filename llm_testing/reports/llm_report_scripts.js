@@ -26,13 +26,20 @@ function initializeComponents() {
         }, 100);
     }
 
-    // 为所有切换按钮添加事件监听器
-    const toggleButtons = document.querySelectorAll('.btn');
-    toggleButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            toggleTable(this);
+    // 延迟添加事件监听器，确保DOM完全加载
+    setTimeout(function() {
+        // 为所有切换按钮添加事件监听器
+        const toggleButtons = document.querySelectorAll('.btn');
+        console.log('Found toggle buttons:', toggleButtons.length);
+
+        toggleButtons.forEach(function(button, index) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Button clicked:', index);
+                toggleTable(this);
+            });
         });
-    });
+    }, 200);
 }
 
 /**
@@ -40,15 +47,20 @@ function initializeComponents() {
  * @param {HTMLElement} element - 切换按钮元素
  */
 function toggleTable(element) {
+    console.log('toggleTable called');
     const tableContainer = element.nextElementSibling;
     const icon = element.querySelector('.chevron-icon');
 
+    console.log('tableContainer:', tableContainer);
+    console.log('icon:', icon);
+
     if (!tableContainer || !icon) {
-        console.warn('Toggle table: Missing required elements');
+        console.warn('Toggle table: Missing required elements', { tableContainer, icon });
         return;
     }
 
     if (tableContainer.classList.contains('hidden')) {
+        console.log('Expanding table');
         tableContainer.classList.remove('hidden');
         icon.classList.add('rotated');
 
@@ -58,6 +70,7 @@ function toggleTable(element) {
         // 重新渲染可能隐藏的图表
         refreshHiddenCharts(tableContainer);
     } else {
+        console.log('Collapsing table');
         tableContainer.classList.add('hidden');
         icon.classList.remove('rotated');
 
@@ -277,20 +290,6 @@ window.addEventListener('resize', function() {
     });
 });
 
-/**
- * 主题切换功能（可选）
- */
-function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
-
-    // 重新渲染图表以适应新主题
-    Object.keys(charts).forEach(chartId => {
-        const chart = charts[chartId];
-        if (chart) {
-            chart.update();
-        }
-    });
-}
 
 /**
  * 打印功能优化
@@ -329,7 +328,6 @@ window.addEventListener('load', reportPerformance);
 window.LLMReport = {
     createChart,
     exportChart,
-    toggleTheme,
     toggleTable,
     charts
 };

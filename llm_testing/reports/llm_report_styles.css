@@ -172,12 +172,6 @@ h2 {
     transform: rotate(180deg);
 }
 
-/* 暗色主题下的SVG颜色 */
-@media (prefers-color-scheme: dark) {
-    .chevron-icon {
-        fill: #9ca3af;
-    }
-}
 
 /* 表格样式 */
 .table-container {
@@ -365,82 +359,3 @@ html {
     scroll-behavior: smooth;
 }
 
-/* 暗色主题支持 */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-neutral-50: #111827;
-        --color-neutral-100: #1f2937;
-        --color-neutral-200: #374151;
-        --color-neutral-300: #4b5563;
-        --color-neutral-400: #6b7280;
-        --color-neutral-500: #9ca3af;
-        --color-neutral-600: #d1d5db;
-        --color-neutral-700: #e5e7eb;
-        --color-neutral-800: #f3f4f6;
-        --color-neutral-900: #f9fafb;
-    }
-
-    body {
-        background-color: var(--color-neutral-50);
-        color: var(--color-neutral-900);
-    }
-
-    .card {
-        background-color: var(--color-neutral-100);
-        border-color: var(--color-neutral-700);
-    }
-
-    .table th {
-        background-color: var(--color-neutral-200);
-        color: var(--color-neutral-400);
-        border-color: var(--color-neutral-700);
-    }
-
-    .table td {
-        border-color: var(--color-neutral-700);
-    }
-
-    .table tbody tr {
-        background-color: var(--color-neutral-100);
-        border-color: var(--color-neutral-700);
-    }
-
-    .table tbody tr:hover {
-        background-color: rgba(55, 65, 81, 0.5);
-    }
-
-    .chart-container {
-        background-color: var(--color-neutral-200);
-    }
-
-    .chart-title {
-        color: var(--color-neutral-900);
-    }
-
-    .chart-type {
-        color: var(--color-neutral-400);
-    }
-
-    .chart-description {
-        color: var(--color-neutral-400);
-    }
-
-    header {
-        background-color: var(--color-neutral-100);
-    }
-
-    footer {
-        background-color: var(--color-neutral-100);
-        border-color: var(--color-neutral-700);
-    }
-
-    .btn {
-        background-color: var(--color-neutral-200);
-        border-color: var(--color-neutral-700);
-        color: var(--color-neutral-900);
-    }
-
-    .btn:hover {
-        background-color: var(--color-neutral-300);
-    }
-}
