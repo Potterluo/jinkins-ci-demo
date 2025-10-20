@@ -153,7 +153,30 @@ h2 {
     height: 2rem;
     border-radius: 0.5rem;
     background-color: var(--color-primary-100);
-    color: var(--color-primary-600);
+}
+
+.icon-container svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: var(--color-primary-600);
+}
+
+.chevron-icon {
+    width: 1rem;
+    height: 1rem;
+    fill: #6b7280;
+    transition: transform 0.2s ease, fill 0.3s ease;
+}
+
+.chevron-icon.rotated {
+    transform: rotate(180deg);
+}
+
+/* 暗色主题下的SVG颜色 */
+@media (prefers-color-scheme: dark) {
+    .chevron-icon {
+        fill: #9ca3af;
+    }
 }
 
 /* 表格样式 */
@@ -309,6 +332,17 @@ footer {
 
 /* 隐藏类 */
 .hidden { display: none; }
+
+/* 布局工具类 */
+.flex-column { flex-direction: column; }
+.tool-list { display: flex; flex-direction: column; gap: 1.5rem; }
+.chart-list { display: flex; flex-direction: column; gap: 1rem; }
+.header-content { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.table-header { font-weight: 500; }
+.table-date { color: #6b7280; }
+.text-gray-500 { color: #6b7280; }
+.font-medium { font-weight: 500; }
+.mt-3 { margin-top: 0.75rem; }
 
 /* 动画类 */
 .animate-fade-in {

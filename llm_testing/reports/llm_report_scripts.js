@@ -27,10 +27,8 @@ function initializeComponents() {
     }
 
     // 为所有切换按钮添加事件监听器
-    const toggleButtons = document.querySelectorAll('[onclick*="toggleTable"]');
+    const toggleButtons = document.querySelectorAll('.btn');
     toggleButtons.forEach(button => {
-        // 移除内联onclick，添加事件监听器
-        button.removeAttribute('onclick');
         button.addEventListener('click', function() {
             toggleTable(this);
         });
@@ -43,7 +41,7 @@ function initializeComponents() {
  */
 function toggleTable(element) {
     const tableContainer = element.nextElementSibling;
-    const icon = element.querySelector('i');
+    const icon = element.querySelector('.chevron-icon');
 
     if (!tableContainer || !icon) {
         console.warn('Toggle table: Missing required elements');
@@ -52,8 +50,7 @@ function toggleTable(element) {
 
     if (tableContainer.classList.contains('hidden')) {
         tableContainer.classList.remove('hidden');
-        icon.classList.remove('fa-chevron-down');
-        icon.classList.add('fa-chevron-up');
+        icon.classList.add('rotated');
 
         // 更新按钮文本
         updateToggleButtonText(element, '收起');
@@ -62,8 +59,7 @@ function toggleTable(element) {
         refreshHiddenCharts(tableContainer);
     } else {
         tableContainer.classList.add('hidden');
-        icon.classList.remove('fa-chevron-up');
-        icon.classList.add('fa-chevron-down');
+        icon.classList.remove('rotated');
 
         // 更新按钮文本
         updateToggleButtonText(element, '展开');

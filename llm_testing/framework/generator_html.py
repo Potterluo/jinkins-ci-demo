@@ -53,20 +53,13 @@ class LLMReportGenerator:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLM测试报告</title>
     
-    <!-- Preline UI CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/preline@2.3.0/dist/preline.js"></script>
-
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- 外部CSS文件 -->
+    <!-- 本地CSS文件 -->
     <link rel="stylesheet" href="./llm_report_styles.css">
+    <link rel="stylesheet" href="./animate.css">
 
-    <!-- 添加animate.css CDN以支持动画效果 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- 本地JavaScript文件 -->
+    <script src="./preline.js"></script>
+    <script src="./chart.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -84,7 +77,7 @@ class LLMReportGenerator:
     <!-- Main Content -->
     <main class="container py-8">
         <!-- Tool List -->
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="tool-list">
             {self.generate_tool_cards()}
         </div>
     </main>
@@ -142,7 +135,10 @@ class LLMReportGenerator:
         # 要复制的文件列表
         static_files = [
             "llm_report_styles.css",
-            "llm_report_scripts.js"
+            "llm_report_scripts.js",
+            "animate.css",
+            "preline.js",
+            "chart.js"
         ]
 
         for filename in static_files:
@@ -182,10 +178,13 @@ class LLMReportGenerator:
         return f"""
             <div class="card animate-fade-in">
                 <div class="card-content">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                    <div class="header-content">
                         <h2>{tool_data['tool']}</h2>
                         <div class="icon-container">
-                            <i class="fas fa-chart-bar"></i>
+                            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1024.25175 0l-209.92 23.04L883.45175 92.16 655.61175 370.688 419.06775 152.064c-15.872-14.848-40.96-14.848-57.344-0.512L14.07575 465.408C-3.33225 481.28-4.86825 508.416 11.00375 525.824c8.192 9.216 19.968 13.824 31.744 13.824 10.24 0 20.48-3.584 28.672-10.752l318.464-287.744 241.152 222.72c8.704 8.192 20.48 11.776 31.744 11.264 11.776-1.024 22.528-6.656 30.208-15.36l250.88-306.688 57.344 57.344L1024.25175 0z m0 0M133.37175 1024H30.97175c-16.896 0-30.72-13.824-30.72-30.72v-348.16c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v348.16c0 16.896-13.824 30.72-30.72 30.72z" />
+                                <path d="M420.09175 1024H317.69175c-16.896 0-30.72-13.824-30.72-30.72V440.32c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v552.96c0 16.896-13.824 30.72-30.72 30.72zM706.81175 1024h-102.4c-16.896 0-30.72-13.824-30.72-30.72v-399.36c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v399.36c0 16.896-13.824 30.72-30.72 30.72zM993.53175 1024h-102.4c-16.896 0-30.72-13.824-30.72-30.72V337.92c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v655.36c0 16.896-13.824 30.72-30.72 30.72z" />
+                            </svg>
                         </div>
                     </div>
 
@@ -198,10 +197,12 @@ class LLMReportGenerator:
                     <div class="mt-6">
                         <button class="btn">
                             <span class="font-medium">📈 关键指标趋势</span>
-                            <i class="fas fa-chevron-down text-gray-500"></i>
+                            <svg class="chevron-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M722.773333 381.44a64 64 0 0 1 90.453334 90.453333l-252.970667 253.013334a68.266667 68.266667 0 0 1-96.512 0l-253.013333-253.013334a64 64 0 0 1 90.538666-90.453333L512 592.128l210.773333-210.773333z" />
+                            </svg>
                         </button>
                         <div class="hidden mt-3">
-                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="chart-list">
                                 {self.generate_charts(tool_data['runs'], tool_data['metrics_schema'])}
                             </div>
                         </div>
@@ -224,8 +225,8 @@ class LLMReportGenerator:
         rows = []
         for run in sorted(runs, key=lambda x: x['timestamp']):
             row_cells = [
-                f'<td style="font-weight: 500;">{run["build_id"]}</td>',
-                f'<td style="color: #6b7280;">{run["timestamp"][:10]}</td>'
+                f'<td class="table-header">{run["build_id"]}</td>',
+                f'<td class="table-date">{run["timestamp"][:10]}</td>'
             ]
             
             # Show all metrics for this run
