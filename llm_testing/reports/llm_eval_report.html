@@ -5,100 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLM测试报告</title>
     
-    <!-- TailwindCSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Preline UI CDN -->
     <script src="https://cdn.jsdelivr.net/npm/preline@2.3.0/dist/preline.js"></script>
-    
+
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script>
-        // TailwindCSS configuration
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#daf6eb',
-                            100: '#c4edde',
-                            200: '#abe2cd',
-                            300: '#85d5b7',
-                            400: '#46c897',
-                            500: '#2dae7d',
-                            600: '#1e8a61',
-                            700: '#167853',
-                            800: '#0e5d3f',
-                            900: '#093927'
-                        },
-                        secondary: {
-                            50: '#cee6ec',
-                            100: '#bbd9e1',
-                            200: '#a5cad3',
-                            300: '#83b6c3',
-                            400: '#4b9aae',
-                            500: '#377d8f',
-                            600: '#255f6e',
-                            700: '#1c505e',
-                            800: '#113a44',
-                            900: '#091e24'
-                        },
-                        neutral: {
-                            50: '#ffffff',
-                            100: '#ffffff',
-                            200: '#ffffff',
-                            300: '#ffffff',
-                            400: '#f2f3f3',
-                            500: '#d5dddc',
-                            600: '#b6c9c7',
-                            700: '#a3c2be',
-                            800: '#89b9b3',
-                            900: '#6faaa2'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif']
-                    },
-                    borderRadius: {
-                        'none': '0px',
-                        'sm': '0.125rem',
-                        'DEFAULT': '0.25rem',
-                        'md': '0.375rem',
-                        'lg': '0.5rem',
-                        'xl': '0.75rem',
-                        '2xl': '1rem',
-                        '3xl': '1.5rem',
-                        'full': '9999px',
-                    },
-                    boxShadow: {
-                        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                        'DEFAULT': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
-                        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
-                        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
-                        'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                        '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                        'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- 内联样式已移除，使用Tailwind CSS类替代 -->
+
+    <!-- 外部CSS文件 -->
+    <link rel="stylesheet" href="./llm_report_styles.css">
+
     <!-- 添加animate.css CDN以支持动画效果 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
-<body class="bg-neutral-50 text-gray-900 min-h-screen font-sans leading-relaxed">
+<body>
     <!-- Header -->
-    <header class="bg-white shadow-sm py-6">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <header>
+        <div class="container">
+            <div class="footer-content">
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">🤖 LLM测试报告</h1>
+                    <h1>🤖 LLM测试报告</h1>
                     <p class="text-gray-600 mt-1">AI模型性能与准确性基准测试</p>
                 </div>
             </div>
@@ -106,67 +34,67 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="container py-8">
         <!-- Tool List -->
-        <div class="space-y-6">
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
             
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:translate-y-[-2px] hover:shadow-xl transition-all duration-300 animate__animated animate__fadeIn">
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-bold text-gray-900">AISBench</h2>
-                        <div class="p-2 rounded-lg bg-primary-100 text-primary-600">
+            <div class="card animate-fade-in">
+                <div class="card-content">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h2>AISBench</h2>
+                        <div class="icon-container">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                     </div>
-                    
+
                     <!-- Metrics Table -->
                     <div class="mb-6">
                         
-        <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-neutral-800">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-800">
-                <thead class="bg-gray-50 dark:bg-neutral-800">
+        <div class="table-container">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">构建ID</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">日期</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">Time to First Token (ms)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">Time Per Output Token (ms)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">99th Percentile Latency (s)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">端到端吞吐 (tokens/s)</th>
+                        <th>构建ID</th><th>日期</th><th>Time to First Token (ms)</th><th>Time Per Output Token (ms)</th><th>99th Percentile Latency (s)</th><th>端到端吞吐 (tokens/s)</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-neutral-900 divide-y divide-gray-200 dark:divide-neutral-800">
-                    <tr class="border-b border-gray-200 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50"><td class="py-3 px-4 font-medium text-gray-900 dark:text-white">local-test-1</td><td class="py-3 px-4 text-gray-500 dark:text-neutral-400">2025-04-04</td><td class="py-3 px-4">0.62</td><td class="py-3 px-4">1.05</td><td class="py-3 px-4">1.87</td><td class="py-3 px-4">10.86</td></tr><tr class="border-b border-gray-200 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50"><td class="py-3 px-4 font-medium text-gray-900 dark:text-white">local-test-2</td><td class="py-3 px-4 text-gray-500 dark:text-neutral-400">2025-04-05</td><td class="py-3 px-4">0.45</td><td class="py-3 px-4">0.87</td><td class="py-3 px-4">1.23</td><td class="py-3 px-4">12.81</td></tr>
+                <tbody>
+                    <tr><td style="font-weight: 500;">local-test-1</td><td style="color: #6b7280;">2025-04-04</td><td>0.62</td><td>1.05</td><td>1.87</td><td>10.86</td></tr><tr><td style="font-weight: 500;">local-test-2</td><td style="color: #6b7280;">2025-04-05</td><td>0.45</td><td>0.87</td><td>1.23</td><td>12.81</td></tr>
                 </tbody>
             </table>
         </div>
         
                     </div>
-                    
+
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button onclick="toggleTable(this)" class="flex items-center justify-between w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors hover:scale-105">
-                            <span class="font-medium text-gray-900">📈 关键指标趋势</span>
+                        <button class="btn">
+                            <span class="font-medium">📈 关键指标趋势</span>
                             <i class="fas fa-chevron-down text-gray-500"></i>
                         </button>
                         <div class="hidden mt-3">
-                            <div class="space-y-4">
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
                                 
-        <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="font-medium text-gray-900 dark:text-white">Time to First Token (ms)</h4>
-                <span class="text-xs text-gray-500 dark:text-neutral-400">柱状图</span>
+        <div class="chart-container">
+            <div class="chart-header">
+                <h4 class="chart-title">Time to First Token (ms)</h4>
+                <span class="chart-type">柱状图</span>
             </div>
-            <div class="relative h-32 w-full">
+            <div class="chart-canvas-container">
                 <canvas id="chart-TTFT-bar"></canvas>
             </div>
-            <p class="text-xs text-gray-500 dark:text-neutral-400 mt-2">Time from input submission to first token generated</p>
+            <p class="chart-description">Time from input submission to first token generated</p>
         </div>
         
 
-        <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="font-medium text-gray-900 dark:text-white">端到端吞吐 (tokens/s)</h4>
-                <span class="text-xs text-gray-500 dark:text-neutral-400">柱状图</span>
+        <div class="chart-container">
+            <div class="chart-header">
+                <h4 class="chart-title">端到端吞吐 (tokens/s)</h4>
+                <span class="chart-type">柱状图</span>
             </div>
-            <div class="relative h-32 w-full">
+            <div class="chart-canvas-container">
                 <canvas id="chart-Throughput-bar"></canvas>
             </div>
-            <p class="text-xs text-gray-500 dark:text-neutral-400 mt-2">99% of requests finish within this time</p>
+            <p class="chart-description">99% of requests finish within this time</p>
         </div>
         
                             </div>
@@ -176,63 +104,63 @@
             </div>
         
 
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:translate-y-[-2px] hover:shadow-xl transition-all duration-300 animate__animated animate__fadeIn">
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-bold text-gray-900">LLMPerf</h2>
-                        <div class="p-2 rounded-lg bg-primary-100 text-primary-600">
+            <div class="card animate-fade-in">
+                <div class="card-content">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h2>LLMPerf</h2>
+                        <div class="icon-container">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                     </div>
-                    
+
                     <!-- Metrics Table -->
                     <div class="mb-6">
                         
-        <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-neutral-800">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-800">
-                <thead class="bg-gray-50 dark:bg-neutral-800">
+        <div class="table-container">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">构建ID</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">日期</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">Average Latency (ms)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">50th Percentile Latency (ms)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">95th Percentile Latency (ms)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">Tokens per Second (tokens/s)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">Requests per Second (req/s)</th>
+                        <th>构建ID</th><th>日期</th><th>Average Latency (ms)</th><th>50th Percentile Latency (ms)</th><th>95th Percentile Latency (ms)</th><th>Tokens per Second (tokens/s)</th><th>Requests per Second (req/s)</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-neutral-900 divide-y divide-gray-200 dark:divide-neutral-800">
-                    <tr class="border-b border-gray-200 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50"><td class="py-3 px-4 font-medium text-gray-900 dark:text-white">local-test-1</td><td class="py-3 px-4 text-gray-500 dark:text-neutral-400">2025-04-04</td><td class="py-3 px-4">312.45</td><td class="py-3 px-4">267.89</td><td class="py-3 px-4">598.34</td><td class="py-3 px-4">18.23</td><td class="py-3 px-4">2.87</td></tr><tr class="border-b border-gray-200 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50"><td class="py-3 px-4 font-medium text-gray-900 dark:text-white">local-test-2</td><td class="py-3 px-4 text-gray-500 dark:text-neutral-400">2025-04-05</td><td class="py-3 px-4">234.56</td><td class="py-3 px-4">198.32</td><td class="py-3 px-4">456.78</td><td class="py-3 px-4">28.45</td><td class="py-3 px-4">4.26</td></tr>
+                <tbody>
+                    <tr><td style="font-weight: 500;">local-test-1</td><td style="color: #6b7280;">2025-04-04</td><td>312.45</td><td>267.89</td><td>598.34</td><td>18.23</td><td>2.87</td></tr><tr><td style="font-weight: 500;">local-test-2</td><td style="color: #6b7280;">2025-04-05</td><td>234.56</td><td>198.32</td><td>456.78</td><td>28.45</td><td>4.26</td></tr>
                 </tbody>
             </table>
         </div>
         
                     </div>
-                    
+
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button onclick="toggleTable(this)" class="flex items-center justify-between w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors hover:scale-105">
-                            <span class="font-medium text-gray-900">📈 关键指标趋势</span>
+                        <button class="btn">
+                            <span class="font-medium">📈 关键指标趋势</span>
                             <i class="fas fa-chevron-down text-gray-500"></i>
                         </button>
                         <div class="hidden mt-3">
-                            <div class="space-y-4">
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
                                 
-        <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="font-medium text-gray-900 dark:text-white">Average Latency (ms)</h4>
-                <span class="text-xs text-gray-500 dark:text-neutral-400">折线图</span>
+        <div class="chart-container">
+            <div class="chart-header">
+                <h4 class="chart-title">Average Latency (ms)</h4>
+                <span class="chart-type">折线图</span>
             </div>
-            <div class="relative h-32 w-full">
+            <div class="chart-canvas-container">
                 <canvas id="chart-avg_latency-line"></canvas>
             </div>
-            <p class="text-xs text-gray-500 dark:text-neutral-400 mt-2">Average end-to-end response latency</p>
+            <p class="chart-description">Average end-to-end response latency</p>
         </div>
         
 
-        <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="font-medium text-gray-900 dark:text-white">50th Percentile Latency (ms)</h4>
-                <span class="text-xs text-gray-500 dark:text-neutral-400">折线图</span>
+        <div class="chart-container">
+            <div class="chart-header">
+                <h4 class="chart-title">50th Percentile Latency (ms)</h4>
+                <span class="chart-type">折线图</span>
             </div>
-            <div class="relative h-32 w-full">
+            <div class="chart-canvas-container">
                 <canvas id="chart-p50_latency-line"></canvas>
             </div>
-            <p class="text-xs text-gray-500 dark:text-neutral-400 mt-2">Median response latency</p>
+            <p class="chart-description">Median response latency</p>
         </div>
         
                             </div>
@@ -242,63 +170,63 @@
             </div>
         
 
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:translate-y-[-2px] hover:shadow-xl transition-all duration-300 animate__animated animate__fadeIn">
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-bold text-gray-900">MMLU</h2>
-                        <div class="p-2 rounded-lg bg-primary-100 text-primary-600">
+            <div class="card animate-fade-in">
+                <div class="card-content">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h2>MMLU</h2>
+                        <div class="icon-container">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                     </div>
-                    
+
                     <!-- Metrics Table -->
                     <div class="mb-6">
                         
-        <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-neutral-800">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-800">
-                <thead class="bg-gray-50 dark:bg-neutral-800">
+        <div class="table-container">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">构建ID</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">日期</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">Accuracy (%)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">F1 Score ()</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">STEM Accuracy (%)</th><th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">Humanities Accuracy (%)</th>
+                        <th>构建ID</th><th>日期</th><th>Accuracy (%)</th><th>F1 Score ()</th><th>STEM Accuracy (%)</th><th>Humanities Accuracy (%)</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-neutral-900 divide-y divide-gray-200 dark:divide-neutral-800">
-                    <tr class="border-b border-gray-200 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50"><td class="py-3 px-4 font-medium text-gray-900 dark:text-white">local-test-1</td><td class="py-3 px-4 text-gray-500 dark:text-neutral-400">2025-04-04</td><td class="py-3 px-4">76.21</td><td class="py-3 px-4">0.761</td><td class="py-3 px-4">79.80</td><td class="py-3 px-4">73.20</td></tr><tr class="border-b border-gray-200 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50"><td class="py-3 px-4 font-medium text-gray-900 dark:text-white">local-test-2</td><td class="py-3 px-4 text-gray-500 dark:text-neutral-400">2025-04-05</td><td class="py-3 px-4">78.45</td><td class="py-3 px-4">0.782</td><td class="py-3 px-4">82.10</td><td class="py-3 px-4">75.30</td></tr>
+                <tbody>
+                    <tr><td style="font-weight: 500;">local-test-1</td><td style="color: #6b7280;">2025-04-04</td><td>76.21</td><td>0.761</td><td>79.80</td><td>73.20</td></tr><tr><td style="font-weight: 500;">local-test-2</td><td style="color: #6b7280;">2025-04-05</td><td>78.45</td><td>0.782</td><td>82.10</td><td>75.30</td></tr>
                 </tbody>
             </table>
         </div>
         
                     </div>
-                    
+
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button onclick="toggleTable(this)" class="flex items-center justify-between w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors hover:scale-105">
-                            <span class="font-medium text-gray-900">📈 关键指标趋势</span>
+                        <button class="btn">
+                            <span class="font-medium">📈 关键指标趋势</span>
                             <i class="fas fa-chevron-down text-gray-500"></i>
                         </button>
                         <div class="hidden mt-3">
-                            <div class="space-y-4">
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
                                 
-        <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="font-medium text-gray-900 dark:text-white">Accuracy (%)</h4>
-                <span class="text-xs text-gray-500 dark:text-neutral-400">折线图</span>
+        <div class="chart-container">
+            <div class="chart-header">
+                <h4 class="chart-title">Accuracy (%)</h4>
+                <span class="chart-type">折线图</span>
             </div>
-            <div class="relative h-32 w-full">
+            <div class="chart-canvas-container">
                 <canvas id="chart-accuracy-line"></canvas>
             </div>
-            <p class="text-xs text-gray-500 dark:text-neutral-400 mt-2">Overall accuracy across all subjects</p>
+            <p class="chart-description">Overall accuracy across all subjects</p>
         </div>
         
 
-        <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="font-medium text-gray-900 dark:text-white">F1 Score ()</h4>
-                <span class="text-xs text-gray-500 dark:text-neutral-400">折线图</span>
+        <div class="chart-container">
+            <div class="chart-header">
+                <h4 class="chart-title">F1 Score ()</h4>
+                <span class="chart-type">折线图</span>
             </div>
-            <div class="relative h-32 w-full">
+            <div class="chart-canvas-container">
                 <canvas id="chart-f1_score-line"></canvas>
             </div>
-            <p class="text-xs text-gray-500 dark:text-neutral-400 mt-2">Macro-averaged F1 score</p>
+            <p class="chart-description">Macro-averaged F1 score</p>
         </div>
         
                             </div>
@@ -311,51 +239,31 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-800 py-6 mt-12 transition-colors duration-300">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-600 dark:text-neutral-400 text-sm">
-                    生成时间: 2025-10-20 19:03:30
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    生成时间: 2025-10-20 19:52:51
                 </p>
-                <p class="text-gray-600 dark:text-neutral-400 text-sm mt-2 md:mt-0">
+                <p class="footer-text mt-2">
                     © 2025 LLM测试框架
                 </p>
             </div>
         </div>
     </footer>
-    
-    <!-- JavaScript -->
+
+    <!-- 外部JavaScript文件 -->
+    <script src="./llm_report_scripts.js"></script>
+
+    <!-- 图表初始化脚本 -->
     <script>
-        // Initialize Preline UI components
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                HSStaticMethods.autoInit();
-            }, 100);
-        });
-        
-        // Table toggle functionality
-        function toggleTable(element) {
-            const tableContainer = element.nextElementSibling;
-            const icon = element.querySelector('i');
-            
-            if (tableContainer.classList.contains('hidden')) {
-                tableContainer.classList.remove('hidden');
-                icon.classList.remove('fa-chevron-down');
-                icon.classList.add('fa-chevron-up');
-                element.innerHTML = element.innerHTML.replace('展开', '收起');
-            } else {
-                tableContainer.classList.add('hidden');
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-chevron-down');
-                element.innerHTML = element.innerHTML.replace('收起', '展开');
-            }
-        }
-        
         // Chart.js global configuration
-        Chart.defaults.font.family = "'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'";
-        Chart.defaults.color = '#6b7280';
-        Chart.defaults.font.size = 11;
-        
+        if (typeof Chart !== 'undefined') {
+            Chart.defaults.font.family = "'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'";
+            Chart.defaults.color = '#6b7280';
+            Chart.defaults.font.size = 11;
+        }
+
         document.addEventListener('DOMContentLoaded', function() { 
                 new Chart(document.getElementById('chart-TTFT-bar'), {
                     type: 'bar',

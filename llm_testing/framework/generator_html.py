@@ -53,100 +53,28 @@ class LLMReportGenerator:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLM测试报告</title>
     
-    <!-- TailwindCSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Preline UI CDN -->
     <script src="https://cdn.jsdelivr.net/npm/preline@2.3.0/dist/preline.js"></script>
-    
+
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script>
-        // TailwindCSS configuration
-        tailwind.config = {{
-            theme: {{
-                extend: {{
-                    colors: {{
-                        primary: {{
-                            50: '#daf6eb',
-                            100: '#c4edde',
-                            200: '#abe2cd',
-                            300: '#85d5b7',
-                            400: '#46c897',
-                            500: '#2dae7d',
-                            600: '#1e8a61',
-                            700: '#167853',
-                            800: '#0e5d3f',
-                            900: '#093927'
-                        }},
-                        secondary: {{
-                            50: '#cee6ec',
-                            100: '#bbd9e1',
-                            200: '#a5cad3',
-                            300: '#83b6c3',
-                            400: '#4b9aae',
-                            500: '#377d8f',
-                            600: '#255f6e',
-                            700: '#1c505e',
-                            800: '#113a44',
-                            900: '#091e24'
-                        }},
-                        neutral: {{
-                            50: '#ffffff',
-                            100: '#ffffff',
-                            200: '#ffffff',
-                            300: '#ffffff',
-                            400: '#f2f3f3',
-                            500: '#d5dddc',
-                            600: '#b6c9c7',
-                            700: '#a3c2be',
-                            800: '#89b9b3',
-                            900: '#6faaa2'
-                        }}
-                    }},
-                    fontFamily: {{
-                        sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif']
-                    }},
-                    borderRadius: {{
-                        'none': '0px',
-                        'sm': '0.125rem',
-                        'DEFAULT': '0.25rem',
-                        'md': '0.375rem',
-                        'lg': '0.5rem',
-                        'xl': '0.75rem',
-                        '2xl': '1rem',
-                        '3xl': '1.5rem',
-                        'full': '9999px',
-                    }},
-                    boxShadow: {{
-                        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                        'DEFAULT': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
-                        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
-                        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
-                        'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                        '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                        'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
-                    }}
-                }}
-            }}
-        }}
-    </script>
-    
-    <!-- 内联样式已移除，使用Tailwind CSS类替代 -->
+
+    <!-- 外部CSS文件 -->
+    <link rel="stylesheet" href="./llm_report_styles.css">
+
     <!-- 添加animate.css CDN以支持动画效果 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
-<body class="bg-neutral-50 text-gray-900 min-h-screen font-sans leading-relaxed">
+<body>
     <!-- Header -->
-    <header class="bg-white shadow-sm py-6">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <header>
+        <div class="container">
+            <div class="footer-content">
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">🤖 LLM测试报告</h1>
+                    <h1>🤖 LLM测试报告</h1>
                     <p class="text-gray-600 mt-1">AI模型性能与准确性基准测试</p>
                 </div>
             </div>
@@ -154,59 +82,39 @@ class LLMReportGenerator:
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="container py-8">
         <!-- Tool List -->
-        <div class="space-y-6">
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
             {self.generate_tool_cards()}
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-800 py-6 mt-12 transition-colors duration-300">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-600 dark:text-neutral-400 text-sm">
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
                     生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
                 </p>
-                <p class="text-gray-600 dark:text-neutral-400 text-sm mt-2 md:mt-0">
+                <p class="footer-text mt-2">
                     © 2025 LLM测试框架
                 </p>
             </div>
         </div>
     </footer>
-    
-    <!-- JavaScript -->
+
+    <!-- 外部JavaScript文件 -->
+    <script src="./llm_report_scripts.js"></script>
+
+    <!-- 图表初始化脚本 -->
     <script>
-        // Initialize Preline UI components
-        document.addEventListener('DOMContentLoaded', function() {{
-            setTimeout(function() {{
-                HSStaticMethods.autoInit();
-            }}, 100);
-        }});
-        
-        // Table toggle functionality
-        function toggleTable(element) {{
-            const tableContainer = element.nextElementSibling;
-            const icon = element.querySelector('i');
-            
-            if (tableContainer.classList.contains('hidden')) {{
-                tableContainer.classList.remove('hidden');
-                icon.classList.remove('fa-chevron-down');
-                icon.classList.add('fa-chevron-up');
-                element.innerHTML = element.innerHTML.replace('展开', '收起');
-            }} else {{
-                tableContainer.classList.add('hidden');
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-chevron-down');
-                element.innerHTML = element.innerHTML.replace('收起', '展开');
-            }}
-        }}
-        
         // Chart.js global configuration
-        Chart.defaults.font.family = "'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'";
-        Chart.defaults.color = '#6b7280';
-        Chart.defaults.font.size = 11;
-        
+        if (typeof Chart !== 'undefined') {{
+            Chart.defaults.font.family = "'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'";
+            Chart.defaults.color = '#6b7280';
+            Chart.defaults.font.size = 11;
+        }}
+
         {self.generate_chart_scripts()}
     </script>
 </body>
@@ -215,12 +123,46 @@ class LLMReportGenerator:
         # 确保输出目录存在
         output_path = Path(output_file)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html_content)
-        
+
+        # 复制CSS和JS文件到reports目录
+        self.copy_static_files(output_path.parent)
+
         print(f"HTML report generated: {output_file}")
         return output_file
+
+    def copy_static_files(self, output_dir):
+        """Copy static CSS and JS files to the output directory"""
+        # 获取当前脚本所在目录
+        current_dir = Path(__file__).parent
+        static_dir = current_dir.parent / "reports"
+
+        # 要复制的文件列表
+        static_files = [
+            "llm_report_styles.css",
+            "llm_report_scripts.js"
+        ]
+
+        for filename in static_files:
+            source_file = static_dir / filename
+            target_file = output_dir / filename
+
+            if source_file.exists():
+                try:
+                    # 先读取源文件内容，然后写入目标文件
+                    with open(source_file, 'r', encoding='utf-8') as f:
+                        content = f.read()
+
+                    with open(target_file, 'w', encoding='utf-8') as f:
+                        f.write(content)
+
+                    print(f"Copied {filename} to {target_file}")
+                except Exception as e:
+                    print(f"Warning: Failed to copy {filename}: {e}")
+            else:
+                print(f"Warning: Static file not found: {source_file}")
     
     def generate_tool_cards(self):
         """Generate HTML cards for each tool"""
@@ -238,28 +180,28 @@ class LLMReportGenerator:
         """Generate HTML for a single tool card"""
         tool_id = tool_name.lower().replace(" ", "-")
         return f"""
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:translate-y-[-2px] hover:shadow-xl transition-all duration-300 animate__animated animate__fadeIn">
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-bold text-gray-900">{tool_data['tool']}</h2>
-                        <div class="p-2 rounded-lg bg-primary-100 text-primary-600">
+            <div class="card animate-fade-in">
+                <div class="card-content">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h2>{tool_data['tool']}</h2>
+                        <div class="icon-container">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                     </div>
-                    
+
                     <!-- Metrics Table -->
                     <div class="mb-6">
                         {self.generate_metrics_table(tool_data['runs'], tool_data['metrics_schema'])}
                     </div>
-                    
+
                     <!-- Charts Section Toggle -->
                     <div class="mt-6">
-                        <button onclick="toggleTable(this)" class="flex items-center justify-between w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors hover:scale-105">
-                            <span class="font-medium text-gray-900">📈 关键指标趋势</span>
+                        <button class="btn">
+                            <span class="font-medium">📈 关键指标趋势</span>
                             <i class="fas fa-chevron-down text-gray-500"></i>
                         </button>
                         <div class="hidden mt-3">
-                            <div class="space-y-4">
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
                                 {self.generate_charts(tool_data['runs'], tool_data['metrics_schema'])}
                             </div>
                         </div>
@@ -282,8 +224,8 @@ class LLMReportGenerator:
         rows = []
         for run in sorted(runs, key=lambda x: x['timestamp']):
             row_cells = [
-                f'<td class="py-3 px-4 font-medium text-gray-900 dark:text-white">{run["build_id"]}</td>',
-                f'<td class="py-3 px-4 text-gray-500 dark:text-neutral-400">{run["timestamp"][:10]}</td>'
+                f'<td style="font-weight: 500;">{run["build_id"]}</td>',
+                f'<td style="color: #6b7280;">{run["timestamp"][:10]}</td>'
             ]
             
             # Show all metrics for this run
@@ -293,21 +235,21 @@ class LLMReportGenerator:
                 if value != 'N/A':
                     formatted_value = metric['format'].format(value)
                     # No color coding, just display the value
-                    row_cells.append(f'<td class="py-3 px-4">{formatted_value}</td>')
+                    row_cells.append(f'<td>{formatted_value}</td>')
                 else:
-                    row_cells.append('<td class="py-3 px-4 text-gray-500 dark:text-neutral-400">N/A</td>')
+                    row_cells.append('<td style="color: #6b7280;">N/A</td>')
             
-            rows.append(f'<tr class="border-b border-gray-200 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50">{"".join(row_cells)}</tr>')
+            rows.append(f'<tr>{"".join(row_cells)}</tr>')
         
         return f"""
-        <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-neutral-800">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-800">
-                <thead class="bg-gray-50 dark:bg-neutral-800">
+        <div class="table-container">
+            <table class="table">
+                <thead>
                     <tr>
-                        {"".join(f'<th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">{header}</th>' for header in headers)}
+                        {"".join(f'<th>{header}</th>' for header in headers)}
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-neutral-900 divide-y divide-gray-200 dark:divide-neutral-800">
+                <tbody>
                     {"".join(rows)}
                 </tbody>
             </table>
@@ -352,15 +294,15 @@ class LLMReportGenerator:
         chart_id = f"chart-{metric['name']}-{chart_type}"
         
         return f"""
-        <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="font-medium text-gray-900 dark:text-white">{metric['display_name']} ({metric['unit']})</h4>
-                <span class="text-xs text-gray-500 dark:text-neutral-400">{chart_type == 'line' and '折线图' or '柱状图'}</span>
+        <div class="chart-container">
+            <div class="chart-header">
+                <h4 class="chart-title">{metric['display_name']} ({metric['unit']})</h4>
+                <span class="chart-type">{chart_type == 'line' and '折线图' or '柱状图'}</span>
             </div>
-            <div class="relative h-32 w-full">
+            <div class="chart-canvas-container">
                 <canvas id="{chart_id}"></canvas>
             </div>
-            <p class="text-xs text-gray-500 dark:text-neutral-400 mt-2">{metric['description']}</p>
+            <p class="chart-description">{metric['description']}</p>
         </div>
         """
     

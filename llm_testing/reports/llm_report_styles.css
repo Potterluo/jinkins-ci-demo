@@ -1,0 +1,412 @@
+/* LLM测试报告自定义样式 */
+/* 基于TailwindCSS的自定义配置 */
+
+:root {
+    /* Primary Colors */
+    --color-primary-50: #daf6eb;
+    --color-primary-100: #c4edde;
+    --color-primary-200: #abe2cd;
+    --color-primary-300: #85d5b7;
+    --color-primary-400: #46c897;
+    --color-primary-500: #2dae7d;
+    --color-primary-600: #1e8a61;
+    --color-primary-700: #167853;
+    --color-primary-800: #0e5d3f;
+    --color-primary-900: #093927;
+
+    /* Secondary Colors */
+    --color-secondary-50: #cee6ec;
+    --color-secondary-100: #bbd9e1;
+    --color-secondary-200: #a5cad3;
+    --color-secondary-300: #83b6c3;
+    --color-secondary-400: #4b9aae;
+    --color-secondary-500: #377d8f;
+    --color-secondary-600: #255f6e;
+    --color-secondary-700: #1c505e;
+    --color-secondary-800: #113a44;
+    --color-secondary-900: #091e24;
+
+    /* Neutral Colors */
+    --color-neutral-50: #ffffff;
+    --color-neutral-100: #ffffff;
+    --color-neutral-200: #ffffff;
+    --color-neutral-300: #ffffff;
+    --color-neutral-400: #f2f3f3;
+    --color-neutral-500: #d5dddc;
+    --color-neutral-600: #b6c9c7;
+    --color-neutral-700: #a3c2be;
+    --color-neutral-800: #89b9b3;
+    --color-neutral-900: #6faaa2;
+}
+
+/* 基础样式 */
+body {
+    font-family: 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif';
+    background-color: var(--color-neutral-50);
+    color: #1f2937;
+    line-height: 1.625;
+    min-height: 100vh;
+}
+
+/* 容器样式 */
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+    .container {
+        max-width: 640px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 768px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1024px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1280px;
+    }
+}
+
+/* 标题样式 */
+h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+    margin-bottom: 0.25rem;
+}
+
+@media (min-width: 768px) {
+    h1 {
+        font-size: 2.25rem;
+    }
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+}
+
+/* 卡片样式 */
+.card {
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+/* 按钮样式 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.75rem;
+    text-align: left;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    color: #111827;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+    transform: scale(1.05);
+}
+
+/* 图标样式 */
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-600);
+}
+
+/* 表格样式 */
+.table-container {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.table {
+    min-width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table tbody tr {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* 图表容器样式 */
+.chart-container {
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.chart-title {
+    font-weight: 500;
+    color: #111827;
+}
+
+.chart-type {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.chart-canvas-container {
+    position: relative;
+    height: 8rem;
+    width: 100%;
+}
+
+.chart-description {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+/* 页眉和页脚样式 */
+header {
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 0;
+}
+
+footer {
+    background-color: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    transition: color 0.3s ease;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .footer-content {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.footer-text {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+/* 辅助类 */
+.text-center { text-align: center; }
+.font-medium { font-weight: 500; }
+.font-bold { font-weight: 700; }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.text-gray-500 { color: #6b7280; }
+.text-gray-600 { color: #4b5563; }
+.text-gray-900 { color: #111827; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-12 { margin-top: 3rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.p-8 { padding: 2rem; }
+
+/* Flexbox 工具类 */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.items-between { justify-content: space-between; }
+.gap-4 { gap: 1rem; }
+
+/* 响应式工具类 */
+@media (min-width: 768px) {
+    .md\\:flex-row { flex-direction: row; }
+    .md\\:items-center { align-items: center; }
+    .md\\:justify-between { justify-content: space-between; }
+    .md\\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+}
+
+/* 隐藏类 */
+.hidden { display: none; }
+
+/* 动画类 */
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 滚动行为 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 暗色主题支持 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-neutral-50: #111827;
+        --color-neutral-100: #1f2937;
+        --color-neutral-200: #374151;
+        --color-neutral-300: #4b5563;
+        --color-neutral-400: #6b7280;
+        --color-neutral-500: #9ca3af;
+        --color-neutral-600: #d1d5db;
+        --color-neutral-700: #e5e7eb;
+        --color-neutral-800: #f3f4f6;
+        --color-neutral-900: #f9fafb;
+    }
+
+    body {
+        background-color: var(--color-neutral-50);
+        color: var(--color-neutral-900);
+    }
+
+    .card {
+        background-color: var(--color-neutral-100);
+        border-color: var(--color-neutral-700);
+    }
+
+    .table th {
+        background-color: var(--color-neutral-200);
+        color: var(--color-neutral-400);
+        border-color: var(--color-neutral-700);
+    }
+
+    .table td {
+        border-color: var(--color-neutral-700);
+    }
+
+    .table tbody tr {
+        background-color: var(--color-neutral-100);
+        border-color: var(--color-neutral-700);
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(55, 65, 81, 0.5);
+    }
+
+    .chart-container {
+        background-color: var(--color-neutral-200);
+    }
+
+    .chart-title {
+        color: var(--color-neutral-900);
+    }
+
+    .chart-type {
+        color: var(--color-neutral-400);
+    }
+
+    .chart-description {
+        color: var(--color-neutral-400);
+    }
+
+    header {
+        background-color: var(--color-neutral-100);
+    }
+
+    footer {
+        background-color: var(--color-neutral-100);
+        border-color: var(--color-neutral-700);
+    }
+
+    .btn {
+        background-color: var(--color-neutral-200);
+        border-color: var(--color-neutral-700);
+        color: var(--color-neutral-900);
+    }
+
+    .btn:hover {
+        background-color: var(--color-neutral-300);
+    }
+}
